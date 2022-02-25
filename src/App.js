@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import Rule from "./components/Rule";
+import Rule from "./rule-engine/components/Rule";
 import {
   ajaxUrl,
   doAjax,
@@ -33,10 +33,32 @@ export default function App() {
   }
 
   const arr = [1, 2, 3];
-  const o1 = arr.map((i) => <option value={i}>{"option " + i}</option>);
+  const o1 = arr.map((i) => (
+    <option key={i} value={i}>
+      {"option " + i}
+    </option>
+  ));
   const o2 = o1;
+  const c = { id: 1, keyId: 1, opId: 2, value: "test" };
+  const rule = { id: 1, fields: {}, criteria: [[c], [c]] };
+  const noop = function () {};
   return (
     <>
+      <Rule
+        rule={rule}
+        keyOptions={getkeyOptions("inquiry", 0)}
+        onFieldChange={noop}
+        onConditionChange={noop}
+        fieldsComponent={AppLoading}
+      />
+      <br />
+      <Rule
+        rule={rule}
+        keyOptions={getkeyOptions("inquiry", 1)}
+        onFieldChange={noop}
+        onConditionChange={noop}
+        fieldsComponent={AppLoading}
+      />
       <div>Loaded {rules.length} Rules</div>
       <select value={v1} onChange={(e) => setv1(e.target.value)}>
         {getkeyOptions("inquiry", 0)}

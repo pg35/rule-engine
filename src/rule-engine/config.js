@@ -9,3 +9,17 @@ export const operators = {
   3: { name: "equal" },
   4: { name: "not equal" }
 };
+// freeze config objs
+const cache = {};
+
+export function getOperatorOptions(conditionId) {
+  const cacheKey = `oprators_${conditionId}`;
+  if (cache[cacheKey]) return cache[cacheKey];
+  const options = conditions[conditionId].operators.map((opId) => (
+    <option value={opId} key={opId}>
+      {operators[opId].name}
+    </option>
+  ));
+  cache[cacheKey] = options;
+  return options;
+}
