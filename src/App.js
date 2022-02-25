@@ -10,72 +10,79 @@ import {
 } from "./utility";
 
 import "./styles.css";
-
+let nextId = 5;
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [rules, setRules] = useState([]);
-
+  const [inquiryRules, setInquiryRules] = useState([]);
+  const [nextId, setNextId] = useState(0);
   useEffect(() => {
     doAjaxDummy(ajaxUrl, {}).then((data) => {
       globals.appData = data;
       setLoading(false);
-      setRules(data.rules);
     });
   });
+  const c1 = { id: 1, keyId: 1, opId: 1, value: "test" };
+  const c2 = { id: 2, keyId: 2, opId: 2, value: "test1" };
 
-  const [v1, setv1] = useState(1);
-  const [v1a, setv1a] = useState(3);
-  const [v1b, setv1b] = useState(2);
-  const [v2, setv2] = useState(2);
-
+  function createRule(id) {
+    console.log(id);
+    return { id, fields: {}, criteria: [[c1], [c2]] };
+  }
+  const addRule = () => {
+    setInquiryRules(inquiryRules.concat(createRule(nextId + 1)));
+    setNextId((nextId) => nextId + 1);
+  };
   if (loading) {
     return <AppLoading />;
   }
+  const handleConditionChange = ({ screenId, ruleId, condition }) => {
+    console.log(screenId, ruleId, condition);
+    if (1 || "inquiry" === screenId) {
+      setInquiryRules(
+        inquiryRules.map((rule) => {
+          if (ruleId === rule.id) {
+            console.log("found");
+            rule.criteria = rule.criteria.map((conditions) => {
+              return conditions.map((obj) => {
+                if (obj.id === condition.id) {
+                  const newCond = { ...obj, ...condition };
+                  console.log(obj, newCond);
+                  return newCond;
+                }
+                return obj;
+              });
+            });
+            console.log(rule);
+          }
 
-  const arr = [1, 2, 3];
-  const o1 = arr.map((i) => (
-    <option key={i} value={i}>
-      {"option " + i}
-    </option>
-  ));
-  const o2 = o1;
-  const c = { id: 1, keyId: 1, opId: 2, value: "test" };
-  const rule = { id: 1, fields: {}, criteria: [[c], [c]] };
+          return rule;
+        })
+      );
+    }
+  };
+
   const noop = function () {};
+  //console.log(inquiryRules);
   return (
     <>
-      <Rule
-        rule={rule}
-        keyOptions={getkeyOptions("inquiry", 0)}
-        onFieldChange={noop}
-        onConditionChange={noop}
-        fieldsComponent={AppLoading}
-      />
-      <br />
-      <Rule
-        rule={rule}
-        keyOptions={getkeyOptions("inquiry", 1)}
-        onFieldChange={noop}
-        onConditionChange={noop}
-        fieldsComponent={AppLoading}
-      />
-      <div>Loaded {rules.length} Rules</div>
-      <select value={v1} onChange={(e) => setv1(e.target.value)}>
-        {getkeyOptions("inquiry", 0)}
-      </select>
-      <select value={v1a} onChange={(e) => setv1a(e.target.value)}>
-        {getkeyOptions("inquiry", 0)}
-      </select>
-      <select value={v1b} onChange={(e) => setv1b(e.target.value)}>
-        {getkeyOptions("inquiry", 0)}
-      </select>
-      <select value={v2} onChange={(e) => setv2(e.target.value)}>
-        {getkeyOptions("inquiry", 1)}
-      </select>
+      <button onClick={addRule}>Add Rule</button>
+      {inquiryRules.map((rule) => (
+        <Rule
+          key={rule.id}
+          rule={rule}
+          keyOptions={getkeyOptions("inquiry", 0)}
+          onFieldChange={noop}
+          onConditionChange={handleConditionChange}
+          fieldsComponent={Fields}
+        />
+      ))}
     </>
   );
 }
 
 function AppLoading() {
   return <div>Initializing.......</div>;
+}
+function Fields(props) {
+  return <div>hello</div>;
 }

@@ -59,7 +59,7 @@ const screenConfig = {
   cart: [[1]]
 };
 const cache = {};
-console.log(conditions, operators);
+//console.log(conditions, operators);
 export function getkeyOptions(screenId, index) {
   const cacheKey = `${screenId}_${index}`;
   if (cache[cacheKey]) {
@@ -70,7 +70,7 @@ export function getkeyOptions(screenId, index) {
     if (p === screenId) {
       screenConfig[p][index].forEach((conditionId) => {
         const condition = conditions[conditionId];
-        console.log(conditionId, condition);
+        //console.log(conditionId, condition);
         if (!groups[condition.group]) groups[condition.group] = [];
         groups[condition.group].push(
           <option value={conditionId} key={conditionId}>
