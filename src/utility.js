@@ -38,9 +38,15 @@ const dummyResponses = {
       2: { name: "not in list" },
       3: { name: "equal" }
     },
-    rules: [{ a: 1 }, { b: 2 }]
+    rules: [{ a: 1 }, { b: 2 }],
+    products:{
+      1:{name:'imran'},
+      2:{name:'ali'},
+      3:{name:'hello world'}
+    },
   }
 };
+
 function doAjaxDummy(url, options) {
   return new Promise(function (r, re) {
     setTimeout(() => {
@@ -53,12 +59,13 @@ function doAjax(url, options) {
     .then(checkStatus)
     .then(parseJSON);
 }
-const globals = {};
+const globals = {appData:dummyResponses.abc};
 const screenConfig = {
   inquiry: [[1, 2, 3], [2]],
   cart: [[1]]
 };
 const cache = {};
+
 //console.log(conditions, operators);
 export function getkeyOptions(screenId, index) {
   const cacheKey = `${screenId}_${index}`;
@@ -95,4 +102,12 @@ export function getkeyOptions(screenId, index) {
   cache[cacheKey] = options;
   return options;
 }
+export function getProductOptions( productIds){
+  return productIds.map(id=>({
+    value:id,
+    label:globals.appData.products[id] ? globals.appData.products[id].name: 
+    `NameNotFound (#${id})`
+  })  )
+}
+
 export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy, globals };

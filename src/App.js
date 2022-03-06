@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-
 import Rule from "./rule-engine/components/Rule";
+import ProductSelect from './rule-engine/components/ProductSelect'
+import {getProductOptions} from './utility'
 import {
   ajaxUrl,
   doAjax,
@@ -8,9 +9,9 @@ import {
   globals,
   getkeyOptions
 } from "./utility";
-
 import "./styles.css";
 let nextId = 5;
+
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [inquiryRules, setInquiryRules] = useState([]);
@@ -21,7 +22,7 @@ export default function App() {
       setLoading(false);
     });
   });
-  const c1 = { id: 1, keyId: 1, opId: 1, value: "test" };
+  const c1 = { id: 1, keyId: 1, opId: 1, value: [3] };
   const c2 = { id: 2, keyId: 2, opId: 2, value: "test1" };
 
   function createRule(id) {
@@ -85,4 +86,27 @@ function AppLoading() {
 }
 function Fields(props) {
   return <div>hello</div>;
+}
+
+export  function App2() {
+  const [v, setv] = useState([]);
+
+  //const filter = (v) => options.filter((x) => -1 !== x.label.indexOf(v));
+  //const loadOptions = (v, cb) => setTimeout(() => cb(filter(v)), 2100);
+  const handleChange = (so) => {
+    setv(so.map(obj=>obj.value));
+  };
+ const options = getProductOptions([1,2,3,4])
+ const selectedOptions = getProductOptions(v)
+ console.log(v,options,selectedOptions)
+  
+ 
+    return (
+    <>
+      <ProductSelect value={selectedOptions} onChange={handleChange} />
+      {
+        //<Select isMulti options={groupOptions} />
+      }
+    </>
+  );
 }

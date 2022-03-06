@@ -1,13 +1,21 @@
+import ProductSelect from './ProductSelect'
 import { getOperatorIds, getOperatorOptions } from "../config";
 
 export default function Condition(props) {
   const { screenId, ruleId, condition, keyOptions, onChange } = props;
   const { id, keyId, opId, value } = condition;
   const handleChange = (e) => {
-    const changes = { [e.target.name]: e.target.value };
+    let value = null;
+    
+    const changes = {};
     if ("keyId" === e.target.name) {
-      changes["opId"] = getOperatorIds(e.target.value)[0];
+      changes.opId = getOperatorIds(e.target.value)[0];
     }
+    else if ('value' === e.target.name){
+      value = e.target.value;
+      changes.value = value;
+    }
+    
     onChange({
       screenId,
       ruleId,
@@ -17,6 +25,19 @@ export default function Condition(props) {
       }
     });
   };
+  const handleProductChange = selectedOptions => {
+    const e={target:{
+      name:'value',
+      value:selectedOptions.map(obj=>obj.value)
+    }}
+    handleChange(e)
+  }
+ 
+  let inputField = null;
+  if (1===keyId){
+    inputField =  <ProductSelect name="value" value={value} onChange={handleProductChange} />
+  }
+  else inputField = <input name="value" value={value} onChange={handleChange} />; 
   return (
     <div>
       <select name="keyId" value={keyId} onChange={handleChange}>
@@ -25,7 +46,7 @@ export default function Condition(props) {
       <select name="opId" value={opId} onChange={handleChange}>
         {getOperatorOptions(keyId)}
       </select>
-      <input name="value" value={value} onChange={handleChange} />
+      {inputField}
     </div>
   );
 }

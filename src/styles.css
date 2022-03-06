@@ -2,3 +2,8 @@
   font-family: sans-serif;
   text-align: center;
 }
+.product-select{
+  display:inline-block;
+  width:300px;
+  height: auto;
+}
