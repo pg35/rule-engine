@@ -1,46 +1,49 @@
 import { useState, useEffect } from "react";
-import Rule from "./rule-engine/components/Rule";
-import ProductSelect from './rule-engine/components/ProductSelect'
-import {getProductOptions} from './utility'
+import RuleList from "./rule-engine/components/RuleList";
+import { screenConfig } from "./rule-engine/config";
 import {
-  ajaxUrl,
-  doAjax,
-  doAjaxDummy,
-  globals,
-  getkeyOptions
+  //  doAjax,
+  doAjaxDummy as doAjax,
+  globals
 } from "./utility";
 import "./styles.css";
-let nextId = 5;
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [inquiryRules, setInquiryRules] = useState([]);
-  const [nextId, setNextId] = useState(0);
+  const [rules, setRules] = useState({});
+  const c = {
+    id: 500
+  };
+
   useEffect(() => {
-    doAjaxDummy(ajaxUrl, {}).then((data) => {
-      globals.appData = data;
+    console.log("aaa");
+    doAjax({
+      action: "seed"
+    }).then((response) => {
+      globals.appData = response;
+      setRules(response.rules);
       setLoading(false);
     });
-  });
-  const c1 = { id: 1, keyId: 1, opId: 1, value: [3] };
-  const c2 = { id: 2, keyId: 2, opId: 2, value: "test1" };
+  }, []);
 
   function createRule(id) {
+    return { id, fields: {}, criteria: [] };
+  }
+  const addRule = (screenId, id) => {
+    const oldRules = rules[screenId] || [];
     console.log(id);
-    return { id, fields: {}, criteria: [[c1], [c2]] };
-  }
-  const addRule = () => {
-    setInquiryRules(inquiryRules.concat(createRule(nextId + 1)));
-    setNextId((nextId) => nextId + 1);
+    setRules({
+      ...rules,
+      [screenId]: oldRules.concat(createRule(id))
+    });
   };
-  if (loading) {
-    return <AppLoading />;
-  }
+
   const handleConditionChange = ({ screenId, ruleId, condition }) => {
     console.log(screenId, ruleId, condition);
-    if (1 || "inquiry" === screenId) {
-      setInquiryRules(
-        inquiryRules.map((rule) => {
+    if ("inquiry" === screenId) {
+      setRules({
+        ...rules,
+        screenId: rules[screenId].map((rule) => {
           if (ruleId === rule.id) {
             console.log("found");
             rule.criteria = rule.criteria.map((conditions) => {
@@ -58,23 +61,25 @@ export default function App() {
 
           return rule;
         })
-      );
-    }
+      });
+    } else throw new Error("unknown screenid " + screenId);
   };
 
   const noop = function () {};
-  //console.log(inquiryRules);
-  return (
+  console.log(rules);
+  return loading ? (
+    <AppLoading />
+  ) : (
     <>
-      <button onClick={addRule}>Add Rule</button>
-      {inquiryRules.map((rule) => (
-        <Rule
-          key={rule.id}
-          rule={rule}
-          keyOptions={getkeyOptions("inquiry", 0)}
-          onFieldChange={noop}
-          onConditionChange={handleConditionChange}
+      <button onClick={(e) => addRule("inquiry", ++c.id)}>Add Rule</button>
+      {Object.keys(screenConfig).map((screenId) => (
+        <RuleList
+          key={screenId}
+          screenId={screenId}
+          rules={rules[screenId]}
           fieldsComponent={Fields}
+          onFieldchange={noop}
+          onConditionChange={handleConditionChange}
         />
       ))}
     </>
@@ -86,27 +91,4 @@ function AppLoading() {
 }
 function Fields(props) {
   return <div>hello</div>;
-}
-
-export  function App2() {
-  const [v, setv] = useState([]);
-
-  //const filter = (v) => options.filter((x) => -1 !== x.label.indexOf(v));
-  //const loadOptions = (v, cb) => setTimeout(() => cb(filter(v)), 2100);
-  const handleChange = (so) => {
-    setv(so.map(obj=>obj.value));
-  };
- const options = getProductOptions([1,2,3,4])
- const selectedOptions = getProductOptions(v)
- console.log(v,options,selectedOptions)
-  
- 
-    return (
-    <>
-      <ProductSelect value={selectedOptions} onChange={handleChange} />
-      {
-        //<Select isMulti options={groupOptions} />
-      }
-    </>
-  );
 }

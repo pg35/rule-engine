@@ -1,5 +1,3 @@
-import { conditions, operators } from "./rule-engine/config";
-
 const ajaxUrl = "undefined" === typeof ajaxurl ? "" : ajaxurl;
 const spinnerUrl =
   "undefined" === typeof mwqcSpinnerUrl
@@ -29,85 +27,56 @@ export let ajaxGlobals = {
   credentials: "same-origin"
 };
 const dummyResponses = {
-  abc: {
-    condition_info: JSON.parse(
-      '{"1":{"name":"a","category":"b","op_ids":[1,2,3]},"2":{"name":"ab1","category":"c","op_ids":[3]}}'
-    ),
-    operator_info: {
-      1: { name: "in list" },
-      2: { name: "not in list" },
-      3: { name: "equal" }
+  seed: {
+    rules: {
+      inquiry: [
+        {
+          id: 1,
+          props: {},
+          criteria: [
+            [
+              { id: 100, keyId: 1, opId: 1, value: [3] },
+              { id: 101, keyId: 2, opId: 3, value: 55.32 }
+            ],
+            []
+          ]
+        }
+      ],
+      cart: []
+      //{ id: 1, keyId: 3, opId: 1, value: ['198.0.0.1','172.0.0.16'] },
     },
-    rules: [{ a: 1 }, { b: 2 }],
-    products:{
-      1:{name:'imran'},
-      2:{name:'ali'},
-      3:{name:'hello world'}
+    products: {
+      1: { name: "imran" },
+      2: { name: "ali" },
+      3: { name: "hello world" }
     },
+    nextId: 500
   }
 };
 
-function doAjaxDummy(url, options) {
+function doAjaxDummy(options, url) {
   return new Promise(function (r, re) {
     setTimeout(() => {
-      r(dummyResponses.abc);
+      r(dummyResponses[options.action]);
     }, 200);
   });
 }
-function doAjax(url, options) {
-  return fetch(url, { ...ajaxGlobals, ...options })
+function doAjax(options, url) {
+  return fetch(url || ajaxUrl, { ...ajaxGlobals, ...options })
     .then(checkStatus)
     .then(parseJSON);
 }
-const globals = {appData:dummyResponses.abc};
-const screenConfig = {
-  inquiry: [[1, 2, 3], [2]],
-  cart: [[1]]
-};
-const cache = {};
+const globals = {};
 
 //console.log(conditions, operators);
-export function getkeyOptions(screenId, index) {
-  const cacheKey = `${screenId}_${index}`;
-  if (cache[cacheKey]) {
-    return cache[cacheKey];
-  }
-  let groups = {};
-  for (const p in screenConfig) {
-    if (p === screenId) {
-      screenConfig[p][index].forEach((conditionId) => {
-        const condition = conditions[conditionId];
-        //console.log(conditionId, condition);
-        if (!groups[condition.group]) groups[condition.group] = [];
-        groups[condition.group].push(
-          <option value={conditionId} key={conditionId}>
-            {condition.name}
-          </option>
-        );
-      });
-    }
-  }
-  let options = [];
-  if (Object.keys(groups).length > 1) {
-    for (const p in groups) {
-      options.push(
-        <optgroup label={p} key={p}>
-          {groups[p]}
-        </optgroup>
-      );
-    }
-  } else {
-    options = groups[Object.keys(groups)[0]];
-  }
-  cache[cacheKey] = options;
-  return options;
-}
-export function getProductOptions( productIds){
-  return productIds.map(id=>({
-    value:id,
-    label:globals.appData.products[id] ? globals.appData.products[id].name: 
-    `NameNotFound (#${id})`
-  })  )
+
+export function getProductOptions(productIds) {
+  return productIds.map((id) => ({
+    value: id,
+    label: globals.appData.products[id]
+      ? globals.appData.products[id].name
+      : `NameNotFound (#${id})`
+  }));
 }
 
 export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy, globals };
