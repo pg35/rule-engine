@@ -1,7 +1,7 @@
 export const conditions = {
-  1: { name: "Id", group: "Product", operatorIds: [1, 2] },
-  2: { name: "Price", group: "Product", operatorIds: [3, 4] },
-  3: { name: "IP", group: "Customer", operatorIds: [1, 2] }
+  1: { name: "Id", group: "Product", operatorIds: [1, 2], defaultValue: [] },
+  2: { name: "Price", group: "Product", operatorIds: [3, 4], defaultValue: "" },
+  3: { name: "IP", group: "Customer", operatorIds: [1, 2], defaultValue: "" }
 };
 export const operators = {
   1: { name: "in" },
@@ -11,7 +11,7 @@ export const operators = {
 };
 export const screenConfig = {
   inquiry: [[1, 2, 3], [2]],
-  cart: [[1]]
+  cart: [[1], [2]]
 };
 // freeze config objs
 
@@ -55,6 +55,7 @@ export function getkeyOptions(screenId, index) {
 export function getOperatorIds(conditionId) {
   return conditions[conditionId].operatorIds;
 }
+
 export function getOperatorOptions(conditionId) {
   const cacheKey = `oprators_${conditionId}`;
   if (cache[cacheKey]) return cache[cacheKey];
@@ -65,4 +66,8 @@ export function getOperatorOptions(conditionId) {
   ));
   cache[cacheKey] = options;
   return options;
+}
+
+export function getDefaultValue(conditionId) {
+  return conditions[conditionId].defaultValue;
 }

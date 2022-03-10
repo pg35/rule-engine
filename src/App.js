@@ -11,12 +11,8 @@ import "./styles.css";
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [rules, setRules] = useState({});
-  const c = {
-    id: 500
-  };
 
   useEffect(() => {
-    console.log("aaa");
     doAjax({
       action: "seed"
     }).then((response) => {
@@ -27,51 +23,100 @@ export default function App() {
   }, []);
 
   function createRule(id) {
-    return { id, fields: {}, criteria: [] };
+    return { id, props: {}, criteria: [[], []] };
   }
-  const addRule = (screenId, id) => {
-    const oldRules = rules[screenId] || [];
-    console.log(id);
+  function createCondition(id) {
+    return { id, keyId: 2, opId: 3, value: "" };
+  }
+  const addRule = (screenId) => {
+    setRules((state) => {
+      const nextId = ++state.nextId;
+      const rules = state[screenId] || [];
+      return {
+        ...state,
+        [screenId]: rules.concat(createRule(nextId))
+      };
+    });
+  };
+  const removeRule = (screenId, ruleId) => {
     setRules({
       ...rules,
-      [screenId]: oldRules.concat(createRule(id))
+      [screenId]: rules[screenId].filter((rule) => rule.id !== ruleId)
+    });
+  };
+
+  const addCondition = (screenId, ruleId, listIndex) => {
+    console.log("addcondition", screenId, ruleId, listIndex);
+    setRules((state) => {
+      const nextId = ++state.nextId;
+      const rules = state[screenId];
+      return {
+        ...state,
+        [screenId]: rules.map((rule) => {
+          if (ruleId === rule.id) {
+            return {
+              ...rule,
+              criteria: rule.criteria.map((list, idx) =>
+                listIndex === idx ? list.concat(createCondition(nextId)) : list
+              )
+            };
+          }
+          return rule;
+        })
+      };
+    });
+  };
+
+  const removeCondition = (screenId, ruleId, listIndex, conditionId) => {
+    setRules({
+      ...rules,
+      [screenId]: rules[screenId].map((rule) => {
+        if (ruleId === rule.id) {
+          return {
+            ...rule,
+            criteria: rule.criteria.map((list, idx) =>
+              listIndex === idx
+                ? list.filter((obj) => obj.id !== conditionId)
+                : list
+            )
+          };
+        }
+        return rule;
+      })
     });
   };
 
   const handleConditionChange = ({ screenId, ruleId, condition }) => {
     console.log(screenId, ruleId, condition);
-    if ("inquiry" === screenId) {
-      setRules({
-        ...rules,
-        screenId: rules[screenId].map((rule) => {
-          if (ruleId === rule.id) {
-            console.log("found");
-            rule.criteria = rule.criteria.map((conditions) => {
-              return conditions.map((obj) => {
-                if (obj.id === condition.id) {
-                  const newCond = { ...obj, ...condition };
-                  console.log(obj, newCond);
-                  return newCond;
-                }
-                return obj;
-              });
+    setRules({
+      ...rules,
+      screenId: rules[screenId].map((rule) => {
+        if (ruleId === rule.id) {
+          console.log("found");
+          rule.criteria = rule.criteria.map((list) => {
+            return list.map((obj) => {
+              if (obj.id === condition.id) {
+                const newCond = { ...obj, ...condition };
+                console.log(obj, newCond);
+                return newCond;
+              }
+              return obj;
             });
-            console.log(rule);
-          }
+          });
+          console.log(rule);
+        }
 
-          return rule;
-        })
-      });
-    } else throw new Error("unknown screenid " + screenId);
+        return rule;
+      })
+    });
   };
 
   const noop = function () {};
-  console.log(rules);
+  // console.log(rules);
   return loading ? (
     <AppLoading />
   ) : (
     <>
-      <button onClick={(e) => addRule("inquiry", ++c.id)}>Add Rule</button>
       {Object.keys(screenConfig).map((screenId) => (
         <RuleList
           key={screenId}
@@ -80,6 +125,10 @@ export default function App() {
           fieldsComponent={Fields}
           onFieldchange={noop}
           onConditionChange={handleConditionChange}
+          addRule={addRule}
+          removeRule={removeRule}
+          addCondition={addCondition}
+          removeCondition={removeCondition}
         />
       ))}
     </>

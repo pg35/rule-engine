@@ -42,7 +42,8 @@ const dummyResponses = {
           ]
         }
       ],
-      cart: []
+      cart: [],
+      nextId: 500,
       //{ id: 1, keyId: 3, opId: 1, value: ['198.0.0.1','172.0.0.16'] },
     },
     products: {
@@ -50,7 +51,6 @@ const dummyResponses = {
       2: { name: "ali" },
       3: { name: "hello world" }
     },
-    nextId: 500
   }
 };
 

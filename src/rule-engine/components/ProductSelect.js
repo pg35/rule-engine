@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import AsyncSelect from "react-select/async";
-import { ajaxUrl, doAjax, doAjaxDummy, getProductOptions } from "../../utility";
+import { doAjaxDummy as doAjax, getProductOptions } from "../../utility";
 
 export default function ProductSelect(props) {
   const [loading, setLoading] = useState(false);
@@ -15,12 +15,12 @@ export default function ProductSelect(props) {
   const loadOptions = (inputValue, callback) => {
     console.log("loadotions " + (inputValue ? inputValue : "emtpy"));
     setLoading(true);
-    doAjaxDummy(ajaxUrl, {}).then((response) => {
+    doAjax({}).then((response) => {
       callback(filterProducts(inputValue));
       setLoading(false);
     });
   };
-  console.log(props);
+  //console.log(props);
   return (
     <AsyncSelect
       value={getProductOptions(props.value)}

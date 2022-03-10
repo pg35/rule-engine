@@ -4,7 +4,6 @@ export default function Rule(props) {
   const { rule, fieldsComponent, ...otherProps } = props;
   const { id, fields, criteria } = rule;
   const FieldsComponent = fieldsComponent;
-
   return (
     <div>
       <FieldsComponent fields={fields} ruleId={id} {...otherProps} />
@@ -17,7 +16,6 @@ export default function Rule(props) {
           {...otherProps}
         />
       ))}
-      <hr />
     </div>
   );
 }
