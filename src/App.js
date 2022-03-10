@@ -8,7 +8,7 @@ import {
 } from "./utility";
 import "./styles.css";
 
-export default function App() {
+export default function App(props) {
   const [loading, setLoading] = useState(true);
   const [rules, setRules] = useState({});
 
@@ -117,7 +117,7 @@ export default function App() {
     <AppLoading />
   ) : (
     <>
-      {Object.keys(screenConfig).map((screenId) => (
+      {Object.keys(props.screenConfig).map((screenId) => (
         <RuleList
           key={screenId}
           screenId={screenId}
@@ -129,6 +129,7 @@ export default function App() {
           removeRule={removeRule}
           addCondition={addCondition}
           removeCondition={removeCondition}
+          screenConfig={props.screenConfig}
         />
       ))}
     </>

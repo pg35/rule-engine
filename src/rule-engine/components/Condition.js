@@ -1,10 +1,10 @@
 import ProductSelect from "./ProductSelect";
 import {
-  getkeyOptions,
+  getKeyOptions,
   getOperatorIds,
   getOperatorOptions,
-  getDefaultValue
-} from "../config";
+  getKeyDefaultValue
+} from "../util";
 
 export default function Condition(props) {
   const { screenId, ruleId, listIndex, condition, onChange } = props;
@@ -15,7 +15,7 @@ export default function Condition(props) {
     if ("keyId" === e.target.name) {
       changes.keyId = e.target.value;
       changes.opId = getOperatorIds(e.target.value)[0];
-      changes.value = getDefaultValue(changes.keyId);
+      changes.value = getKeyDefaultValue(changes.keyId);
     } else if ("opId" === e.target.name) {
       changes.opId = e.target.value;
     } else if ("value" === e.target.name) {
@@ -57,7 +57,7 @@ export default function Condition(props) {
   return (
     <div>
       <select name="keyId" value={keyId} onChange={handleChange}>
-        {getkeyOptions(screenId, listIndex)}
+        {getKeyOptions(props.screenConfig, screenId, listIndex)}
       </select>
       <select name="opId" value={opId} onChange={handleChange}>
         {getOperatorOptions(keyId)}

@@ -1,4 +1,5 @@
 import Condition from "./Condition";
+import { getListLabel } from "../util";
 
 export default function ConditionList(props) {
   const { screenId, ruleId, listIndex } = props;
@@ -6,6 +7,7 @@ export default function ConditionList(props) {
 
   return (
     <div>
+      <h4>{getListLabel(props.screenConfig, screenId, listIndex)}</h4>
       {conditions.map((obj) => (
         <div key={obj.id}>
           <Condition
