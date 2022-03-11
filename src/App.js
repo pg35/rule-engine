@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import RuleList from "./rule-engine/components/RuleList";
-import { screenConfig } from "./rule-engine/config";
 import {
   //  doAjax,
   doAjaxDummy as doAjax,
-  globals
+  prepareRules
 } from "./utility";
 import "./styles.css";
 
@@ -16,8 +15,7 @@ export default function App(props) {
     doAjax({
       action: "seed"
     }).then((response) => {
-      globals.appData = response;
-      setRules(response.rules);
+      setRules(prepareRules(response, props.screenConfig));
       setLoading(false);
     });
   }, []);

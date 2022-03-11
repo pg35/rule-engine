@@ -36,7 +36,7 @@ export default function Condition(props) {
     const e = {
       target: {
         name: "value",
-        value: selectedOptions.map((obj) => obj.value)
+        value: selectedOptions
       }
     };
     handleChange(e);

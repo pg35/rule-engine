@@ -35,7 +35,7 @@ const dummyResponses = {
           props: {},
           criteria: [
             [
-              { id: 100, keyId: 1, opId: 1, value: [3] },
+              { id: 100, keyId: 1, opId: 1, value: [1, 3, 4] },
               { id: 101, keyId: 2, opId: 3, value: 55.32 }
             ],
             []
@@ -43,14 +43,14 @@ const dummyResponses = {
         }
       ],
       cart: [],
-      nextId: 500,
+      nextId: 500
       //{ id: 1, keyId: 3, opId: 1, value: ['198.0.0.1','172.0.0.16'] },
     },
     products: {
       1: { name: "imran" },
       2: { name: "ali" },
       3: { name: "hello world" }
-    },
+    }
   }
 };
 
@@ -66,17 +66,28 @@ function doAjax(options, url) {
     .then(checkStatus)
     .then(parseJSON);
 }
-const globals = {};
 
-//console.log(conditions, operators);
-
-export function getProductOptions(productIds) {
-  return productIds.map((id) => ({
-    value: id,
-    label: globals.appData.products[id]
-      ? globals.appData.products[id].name
-      : `NameNotFound (#${id})`
+function buildSelectOptions(values, map) {
+  return values.map((value) => ({
+    value,
+    label: map[value] ? map[value].name : `NameNotFound (#${value})`
   }));
 }
-
-export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy, globals };
+export function prepareRules(data, screenConfig) {
+  for (const p in screenConfig) {
+    data.rules[p].forEach((rule) =>
+      rule.criteria.forEach((list) =>
+        list.forEach((obj) => {
+          switch (Number(obj.keyId)) {
+            case 1:
+              obj.value = buildSelectOptions(obj.value, data.products);
+              break;
+            default:
+          }
+        })
+      )
+    );
+  }
+  return data.rules;
+}
+export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy };

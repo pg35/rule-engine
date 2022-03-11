@@ -1,29 +1,28 @@
-import { useState, useEffect } from "react";
 import AsyncSelect from "react-select/async";
-import { doAjaxDummy as doAjax, getProductOptions } from "../../utility";
+import { doAjaxDummy as doAjax } from "../../utility";
 
 export default function ProductSelect(props) {
-  const [loading, setLoading] = useState(false);
-  const ids = [1, 2, 3, 4];
+  const allOptions = [
+    { value: 1, label: "imran" },
+    { value: 2, label: "kkk" },
+    { value: 3, label: "ali" },
+    { value: 4, label: "bbbb" }
+  ];
 
   const filterProducts = (searchString) => {
     const s = searchString.toLowerCase();
-    return getProductOptions(ids).filter((obj) =>
-      obj.label.toLowerCase().includes(s)
-    );
+    return allOptions.filter((obj) => obj.label.toLowerCase().includes(s));
   };
   const loadOptions = (inputValue, callback) => {
     console.log("loadotions " + (inputValue ? inputValue : "emtpy"));
-    setLoading(true);
     doAjax({}).then((response) => {
       callback(filterProducts(inputValue));
-      setLoading(false);
     });
   };
   //console.log(props);
   return (
     <AsyncSelect
-      value={getProductOptions(props.value)}
+      value={props.value}
       onChange={props.onChange}
       isMulti
       isClearable
