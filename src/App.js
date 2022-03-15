@@ -4,7 +4,7 @@ import { reducer } from "./store";
 import {
   //  doAjax,
   doAjaxDummy as doAjax,
-  prepareRules
+  prepareState
 } from "./utility";
 import "./styles.css";
 
@@ -19,12 +19,14 @@ export default function App(props) {
       //setRules(prepareRules(response, props.screenConfig));
       dispatch({
         type: "INIT",
-        state: prepareRules(response, props.screenConfig)
+        state: prepareState(response)
       });
       setLoading(false);
     });
   }, []);
 
+  const reDispatch = (action) =>
+    dispatch({ ...action, type: "RE_" + action.type });
   //console.log(state);
   return loading ? (
     <AppLoading />
@@ -37,7 +39,7 @@ export default function App(props) {
           rules={state[screenId]}
           fieldsComponent={Fields}
           screenConfig={props.screenConfig}
-          dispatch={dispatch}
+          dispatch={reDispatch}
         />
       ))}
     </div>

@@ -46,10 +46,12 @@ const dummyResponses = {
       nextId: 500
       //{ id: 1, keyId: 3, opId: 1, value: ['198.0.0.1','172.0.0.16'] },
     },
-    products: {
-      1: { name: "imran" },
-      2: { name: "ali" },
-      3: { name: "hello world" }
+    objects: {
+      1: {
+        1: { name: "imran" },
+        2: { name: "ali" },
+        3: { name: "hello world" }
+      }
     }
   }
 };
@@ -67,27 +69,30 @@ function doAjax(options, url) {
     .then(parseJSON);
 }
 
-function buildSelectOptions(values, map) {
-  return values.map((value) => ({
-    value,
-    label: map[value] ? map[value].name : `NameNotFound (#${value})`
+function buildSelectOptions(ids, map) {
+  return ids.map((id) => ({
+    value: id,
+    label: map[id] ? map[id].name : `NameNotFound (#${id})`
   }));
 }
-export function prepareRules(data, screenConfig) {
-  for (const p in screenConfig) {
-    data.rules[p].forEach((rule) =>
-      rule.criteria.forEach((list) =>
-        list.forEach((obj) => {
-          switch (Number(obj.keyId)) {
-            case 1:
-              obj.value = buildSelectOptions(obj.value, data.products);
-              break;
-            default:
-          }
-        })
-      )
-    );
+
+function objIdsToSelectOptions(rules, objects) {
+  for (const p in rules) {
+    if (Array.isArray(rules[p])) {
+      rules[p].forEach((rule) =>
+        rule.criteria.forEach((list) =>
+          list.forEach((obj) => {
+            if (objects[obj.keyId]) {
+              obj.value = buildSelectOptions(obj.value, objects[obj.keyId]);
+            }
+          })
+        )
+      );
+    }
   }
-  return data.rules;
+  return rules;
+}
+export function prepareState(data) {
+  return objIdsToSelectOptions(data.rules, data.objects);
 }
 export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy };
