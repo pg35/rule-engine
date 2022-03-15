@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import App from "./App";
 
-const screenConfig = {
+const rulesConfig = {
   inquiry: {
     label: "Inquiry",
     criteria: [
@@ -30,7 +30,7 @@ const screenConfig = {
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <StrictMode>
-    <App screenConfig={screenConfig} />
+    <App rulesConfig={rulesConfig} />
   </StrictMode>,
   rootElement
 );

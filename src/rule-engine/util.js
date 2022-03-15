@@ -2,29 +2,23 @@ import { keys, operators } from "./config";
 
 const cache = {};
 
-export function getListLabel(screenConfig, screenId, index) {
-  return screenConfig[screenId].criteria[index].label;
-}
-
-export function getKeyOptions(screenConfig, screenId, index) {
-  const cacheKey = `${screenId}_${index}`;
+export function getKeyOptions(config, ruleListId, condListIndex) {
+  const cacheKey = `${ruleListId}_${condListIndex}`;
   if (cache[cacheKey]) {
     return cache[cacheKey];
   }
+
   let groups = {};
-  for (const p in screenConfig) {
-    if (p === screenId) {
-      screenConfig[p].criteria[index].keyIds.forEach((keyId) => {
-        const obj = keys[keyId];
-        if (!groups[obj.group]) groups[obj.group] = [];
-        groups[obj.group].push(
-          <option value={keyId} key={keyId}>
-            {obj.name}
-          </option>
-        );
-      });
-    }
-  }
+  config.criteria[condListIndex].keyIds.forEach((keyId) => {
+    const obj = keys[keyId];
+    if (!groups[obj.group]) groups[obj.group] = [];
+    groups[obj.group].push(
+      <option value={keyId} key={keyId}>
+        {obj.name}
+      </option>
+    );
+  });
+
   let options = [];
   if (Object.keys(groups).length > 1) {
     for (const p in groups) {

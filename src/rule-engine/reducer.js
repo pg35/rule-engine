@@ -12,13 +12,15 @@ export function reducer(state, action) {
       nextId = state.nextId + 1;
       return {
         ...state,
-        [action.screenId]: state[action.screenId].concat(createRule(nextId)),
+        [action.ruleListId]: state[action.ruleListId].concat(
+          createRule(nextId)
+        ),
         nextId
       };
     case "REMOVE_RULE":
       return {
         ...state,
-        [action.screenId]: state[action.screenId].filter(
+        [action.ruleListId]: state[action.ruleListId].filter(
           (rule) => action.ruleId !== rule.id
         )
       };
@@ -26,12 +28,12 @@ export function reducer(state, action) {
       nextId = state.nextId + 1;
       return {
         ...state,
-        [action.screenId]: state[action.screenId].map((rule) =>
+        [action.ruleListId]: state[action.ruleListId].map((rule) =>
           action.ruleId === rule.id
             ? {
                 ...rule,
                 criteria: rule.criteria.map((list, idx) =>
-                  action.listIndex === idx
+                  action.condListIndex === idx
                     ? list.concat(createCondition(nextId))
                     : list
                 )
@@ -43,12 +45,12 @@ export function reducer(state, action) {
     case "REMOVE_CONDITION":
       return {
         ...state,
-        [action.screenId]: state[action.screenId].map((rule) =>
+        [action.ruleListId]: state[action.ruleListId].map((rule) =>
           action.ruleId === rule.id
             ? {
                 ...rule,
                 criteria: rule.criteria.map((list, idx) =>
-                  action.listIndex === idx
+                  action.condListIndex === idx
                     ? list.filter((obj) => action.conditionId !== obj.id)
                     : list
                 )
@@ -59,12 +61,12 @@ export function reducer(state, action) {
     case "UPDATE_CONDITION":
       return {
         ...state,
-        [action.screenId]: state[action.screenId].map((rule) =>
+        [action.ruleListId]: state[action.ruleListId].map((rule) =>
           action.ruleId === rule.id
             ? {
                 ...rule,
                 criteria: rule.criteria.map((list, idx) =>
-                  action.listIndex === idx
+                  action.condListIndex === idx
                     ? list.map((obj) =>
                         action.condition.id === obj.id
                           ? { ...obj, ...action.condition }
@@ -79,7 +81,7 @@ export function reducer(state, action) {
     case "UPDATE_FIELD":
       return {
         ...state,
-        [action.screenId]: state[action.screenId].map((rule) =>
+        [action.ruleListId]: state[action.ruleListId].map((rule) =>
           action.ruleId === rule.id
             ? {
                 ...rule,

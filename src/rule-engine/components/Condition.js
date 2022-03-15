@@ -7,8 +7,7 @@ import {
 } from "../util";
 
 export default function Condition(props) {
-  console.log(props);
-  const { screenId, ruleId, listIndex, condition } = props;
+  const { ruleListId, ruleId, condListIndex, condition, config } = props;
   const { id, keyId, opId, value } = condition;
 
   const handleChange = (e) => {
@@ -25,9 +24,9 @@ export default function Condition(props) {
 
     props.dispatch({
       type: "UPDATE_CONDITION",
-      screenId,
+      ruleListId,
       ruleId,
-      listIndex,
+      condListIndex,
       condition: {
         id,
         ...changes
@@ -60,7 +59,7 @@ export default function Condition(props) {
   return (
     <div>
       <select name="keyId" value={keyId} onChange={handleChange}>
-        {getKeyOptions(props.screenConfig, screenId, listIndex)}
+        {getKeyOptions(config, ruleListId, condListIndex)}
       </select>
       <select name="opId" value={opId} onChange={handleChange}>
         {getOperatorOptions(keyId)}

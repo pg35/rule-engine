@@ -3,6 +3,7 @@ import ConditionList from "./ConditionList";
 export default function Rule(props) {
   const { rule, fieldsComponent, ...otherProps } = props;
   const { id, fields, criteria } = rule;
+
   const FieldsComponent = fieldsComponent;
   return (
     <div>
@@ -11,8 +12,8 @@ export default function Rule(props) {
         <ConditionList
           key={`${id}-${index}`}
           conditions={conditions}
+          condListIndex={index}
           ruleId={id}
-          listIndex={index}
           {...otherProps}
         />
       ))}

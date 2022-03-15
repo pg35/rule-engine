@@ -1,17 +1,18 @@
 import Rule from "./Rule";
 
 export default function RuleList(props) {
-  const { screenId, rules, dispatch, ...otherProps } = props;
+  const { id, rules, ...otherProps } = props;
+  const { config, dispatch } = props;
 
   return (
     <div>
-      <h3>{props.screenId} rules</h3>
+      <h3>{config.label} rules</h3>
       <div>
         <button
           onClick={(e) =>
             dispatch({
               type: "ADD_RULE",
-              screenId
+              ruleListId: id
             })
           }
         >
@@ -19,17 +20,12 @@ export default function RuleList(props) {
         </button>
         {rules.map((rule) => (
           <div key={rule.id}>
-            <Rule
-              rule={rule}
-              screenId={screenId}
-              dispatch={dispatch}
-              {...otherProps}
-            />
+            <Rule rule={rule} ruleListId={id} {...otherProps} />
             <button
               onClick={(e) =>
                 dispatch({
                   type: "REMOVE_RULE",
-                  screenId,
+                  ruleListId: id,
                   ruleId: rule.id
                 })
               }

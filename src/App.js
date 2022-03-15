@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import RuleList from "./rule-engine/components/RuleList";
 import { reducer } from "./store";
 import {
@@ -9,36 +9,36 @@ import {
 import "./styles.css";
 
 export default function App(props) {
-  const [loading, setLoading] = useState(true);
-  const [state, dispatch] = useReducer(reducer, { inquiry: [], cart: [] });
+  const [state, dispatch] = useReducer(reducer, {
+    init: false
+  });
 
   useEffect(() => {
     doAjax({
       action: "seed"
     }).then((response) => {
-      //setRules(prepareRules(response, props.screenConfig));
       dispatch({
         type: "INIT",
         state: prepareState(response)
       });
-      setLoading(false);
     });
   }, []);
 
   const reDispatch = (action) =>
     dispatch({ ...action, type: "RE_" + action.type });
   //console.log(state);
-  return loading ? (
+  const { init, rules } = state;
+  return !init ? (
     <AppLoading />
   ) : (
     <div>
-      {Object.keys(props.screenConfig).map((screenId) => (
+      {Object.keys(props.rulesConfig).map((id) => (
         <RuleList
-          key={screenId}
-          screenId={screenId}
-          rules={state[screenId]}
+          key={id}
+          id={id}
+          rules={rules[id]}
           fieldsComponent={Fields}
-          screenConfig={props.screenConfig}
+          config={props.rulesConfig[id]}
           dispatch={reDispatch}
         />
       ))}

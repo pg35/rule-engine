@@ -1,13 +1,12 @@
 import Condition from "./Condition";
-import { getListLabel } from "../util";
 
 export default function ConditionList(props) {
-  const { screenId, ruleId, listIndex } = props;
   const { conditions, ...otherProps } = props;
+  const { ruleListId, ruleId, condListIndex, config } = props;
 
   return (
     <div>
-      <h4>{getListLabel(props.screenConfig, screenId, listIndex)}</h4>
+      <h4>{config.criteria[condListIndex].label}</h4>
       {conditions.map((obj) => (
         <div key={obj.id}>
           <Condition condition={obj} {...otherProps} />
@@ -15,9 +14,9 @@ export default function ConditionList(props) {
             onClick={(e) =>
               props.dispatch({
                 type: "REMOVE_CONDITION",
-                screenId,
+                ruleListId,
                 ruleId,
-                listIndex,
+                condListIndex,
                 conditionId: obj.id
               })
             }
@@ -31,9 +30,9 @@ export default function ConditionList(props) {
         onClick={(e) =>
           props.dispatch({
             type: "ADD_CONDITION",
-            screenId,
+            ruleListId,
             ruleId,
-            listIndex
+            condListIndex
           })
         }
       >

@@ -93,6 +93,8 @@ function objIdsToSelectOptions(rules, objects) {
   return rules;
 }
 export function prepareState(data) {
-  return objIdsToSelectOptions(data.rules, data.objects);
+  return {
+    rules: objIdsToSelectOptions(data.rules, data.objects)
+  };
 }
 export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy };
