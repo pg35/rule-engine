@@ -5,6 +5,7 @@ import {
   getOperatorOptions,
   getKeyDefaultValue
 } from "../util";
+import styles from "./css/Condition.module.css";
 
 export default function Condition(props) {
   const { ruleListId, ruleId, condListIndex, condition, config } = props;
@@ -55,16 +56,36 @@ export default function Condition(props) {
     );
   } else
     inputField = <input name="value" value={value} onChange={handleChange} />;
-
+  const st = styles;
   return (
-    <div>
-      <select name="keyId" value={keyId} onChange={handleChange}>
-        {getKeyOptions(config, ruleListId, condListIndex)}
-      </select>
-      <select name="opId" value={opId} onChange={handleChange}>
-        {getOperatorOptions(keyId)}
-      </select>
-      {inputField}
+    <div class={st.condition}>
+      <div class={`${st.part} ${st.key}`}>
+        <select name="keyId" value={keyId} onChange={handleChange}>
+          {getKeyOptions(config, ruleListId, condListIndex)}
+        </select>
+      </div>
+      <div class={`${st.part} ${st.operator}`}>
+        <select name="opId" value={opId} onChange={handleChange}>
+          {getOperatorOptions(keyId)}
+        </select>
+      </div>
+      <div class={`${st.part} ${st.value}`}>{inputField}</div>
+      <div class={`${st.part} ${st.removeBtn}`}>
+        <button
+          onClick={(e) =>
+            props.dispatch({
+              type: "REMOVE_CONDITION",
+              ruleListId,
+              ruleId,
+              condListIndex,
+              conditionId: id
+            })
+          }
+        >
+          {" "}
+          X{" "}
+        </button>
+      </div>
     </div>
   );
 }

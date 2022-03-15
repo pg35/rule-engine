@@ -1,0 +1,7 @@
+.conditionList {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.conditionList:last-child {
+  border-bottom: none;
+}

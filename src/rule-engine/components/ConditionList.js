@@ -1,30 +1,15 @@
 import Condition from "./Condition";
+import styles from "./css/ConditionList.module.css";
 
 export default function ConditionList(props) {
   const { conditions, ...otherProps } = props;
   const { ruleListId, ruleId, condListIndex, config } = props;
 
   return (
-    <div>
-      <h4>{config.criteria[condListIndex].label}</h4>
+    <div class={styles.conditionList}>
+      <h3>{config.criteria[condListIndex].label}</h3>
       {conditions.map((obj) => (
-        <div key={obj.id}>
-          <Condition condition={obj} {...otherProps} />
-          <button
-            onClick={(e) =>
-              props.dispatch({
-                type: "REMOVE_CONDITION",
-                ruleListId,
-                ruleId,
-                condListIndex,
-                conditionId: obj.id
-              })
-            }
-          >
-            {" "}
-            X{" "}
-          </button>
-        </div>
+        <Condition key={obj.id} condition={obj} {...otherProps} />
       ))}
       <button
         onClick={(e) =>
