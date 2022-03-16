@@ -85,9 +85,7 @@ export function reducer(state, action) {
           action.ruleId === rule.id
             ? {
                 ...rule,
-                fields: rule.fields.map((obj) =>
-                  action.field.id === obj.id ? { ...obj, ...action.field } : obj
-                )
+                fields: { ...rule.fields, ...action.field }
               }
             : rule
         )

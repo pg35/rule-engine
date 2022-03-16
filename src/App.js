@@ -1,4 +1,5 @@
-import { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
+import Fields from "./components/Fields";
 import RuleList from "./rule-engine/components/RuleList";
 import { reducer } from "./store";
 import {
@@ -48,7 +49,4 @@ export default function App(props) {
 
 function AppLoading() {
   return <div>Initializing.......</div>;
-}
-function Fields(props) {
-  return <div>hello</div>;
 }

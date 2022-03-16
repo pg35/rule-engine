@@ -32,7 +32,13 @@ const dummyResponses = {
       inquiry: [
         {
           id: 1,
-          props: {},
+          fields: {
+            hidePrice: true,
+            priceText: "price is hidden",
+            add2CartText: "inquire",
+            revokeCheckout: true,
+            enableInquiry: true
+          },
           criteria: [
             [
               { id: 100, keyId: 1, opId: 1, value: [1, 3, 4] },
