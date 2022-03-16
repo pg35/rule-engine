@@ -1,4 +1,5 @@
 import Rule from "./Rule";
+import Collapsible from "./ui/Collapsible";
 
 export default function RuleList(props) {
   const { id, rules, ...otherProps } = props;
@@ -19,7 +20,7 @@ export default function RuleList(props) {
           Add Rule
         </button>
         {rules.map((rule) => (
-          <div key={rule.id}>
+          <Collapsible title={"Rule"} key={rule.id}>
             <Rule rule={rule} ruleListId={id} {...otherProps} />
             <button
               onClick={(e) =>
@@ -33,7 +34,7 @@ export default function RuleList(props) {
               Remove Rule
             </button>
             <hr />
-          </div>
+          </Collapsible>
         ))}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import ConditionList from "./ConditionList";
+import Collapsible from "./ui/Collapsible";
 
 export default function Rule(props) {
   const { rule, fieldsComponent, ...otherProps } = props;
@@ -9,13 +10,17 @@ export default function Rule(props) {
     <div>
       <FieldsComponent fields={fields} ruleId={id} {...otherProps} />
       {criteria.map((conditions, index) => (
-        <ConditionList
+        <Collapsible
+          title={props.config.criteria[index].label}
           key={`${id}-${index}`}
-          conditions={conditions}
-          condListIndex={index}
-          ruleId={id}
-          {...otherProps}
-        />
+        >
+          <ConditionList
+            conditions={conditions}
+            condListIndex={index}
+            ruleId={id}
+            {...otherProps}
+          />
+        </Collapsible>
       ))}
     </div>
   );
