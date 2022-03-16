@@ -6,7 +6,7 @@ export default function ConditionList(props) {
   const { ruleListId, ruleId, condListIndex, config } = props;
 
   return (
-    <div class={styles.conditionList}>
+    <div className={styles.conditionList}>
       <h3>{config.criteria[condListIndex].label}</h3>
       {conditions.map((obj) => (
         <Condition key={obj.id} condition={obj} {...otherProps} />

@@ -58,19 +58,19 @@ export default function Condition(props) {
     inputField = <input name="value" value={value} onChange={handleChange} />;
   const st = styles;
   return (
-    <div class={st.condition}>
-      <div class={`${st.part} ${st.key}`}>
+    <div className={st.condition}>
+      <div className={`${st.part} ${st.key}`}>
         <select name="keyId" value={keyId} onChange={handleChange}>
           {getKeyOptions(config, ruleListId, condListIndex)}
         </select>
       </div>
-      <div class={`${st.part} ${st.operator}`}>
+      <div className={`${st.part} ${st.operator}`}>
         <select name="opId" value={opId} onChange={handleChange}>
           {getOperatorOptions(keyId)}
         </select>
       </div>
-      <div class={`${st.part} ${st.value}`}>{inputField}</div>
-      <div class={`${st.part} ${st.removeBtn}`}>
+      <div className={`${st.part} ${st.value}`}>{inputField}</div>
+      <div className={`${st.part} ${st.removeBtn}`}>
         <button
           onClick={(e) =>
             props.dispatch({
