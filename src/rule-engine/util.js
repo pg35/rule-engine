@@ -54,3 +54,20 @@ export function getOperatorOptions(keyId) {
 export function getKeyDefaultValue(keyId) {
   return keys[keyId].defaultValue;
 }
+
+export function getHtmlId(name, prefix = "mwre") {
+  return `${prefix}_${name}`;
+}
+
+export function getFieldValue(e) {
+  switch (e.target.type) {
+    case "checkbox":
+      return e.target.checked;
+    default:
+      return e.target.value;
+  }
+}
+
+export function cn(arr) {
+  return arr.join(" ");
+}

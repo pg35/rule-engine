@@ -24,6 +24,13 @@ export function reducer(state, action) {
           (rule) => action.ruleId !== rule.id
         )
       };
+    case "UPDATE_RULE":
+      return {
+        ...state,
+        [action.ruleListId]: state[action.ruleListId].map((rule) =>
+          action.ruleId === rule.id ? { ...rule, ...action.rule } : rule
+        )
+      };
     case "ADD_CONDITION":
       nextId = state.nextId + 1;
       return {

@@ -32,6 +32,9 @@ const dummyResponses = {
       inquiry: [
         {
           id: 1,
+          name: "firt rule",
+          active: true,
+          priority: 100,
           fields: {
             hidePrice: true,
             priceText: "price is hidden",
