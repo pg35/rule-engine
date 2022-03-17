@@ -86,8 +86,8 @@ export default function Fields(props) {
           <>
             <Field
               {...getFieldProps(
-                "enableInquiry",
-                obj.enableInquiry,
+                "emtpyCart",
+                obj.emtpyCart,
                 "checkbox",
                 "horizontal",
                 "Empty cart after inquiry"
@@ -95,8 +95,8 @@ export default function Fields(props) {
             />
             <Field
               {...getFieldProps(
-                "enableInquiry",
-                obj.enableInquiry,
+                "disableAck",
+                obj.disableAck,
                 "checkbox",
                 "horizontal",
                 "Disable acknowledgement email"

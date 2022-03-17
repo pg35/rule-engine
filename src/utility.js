@@ -40,7 +40,9 @@ const dummyResponses = {
             priceText: "price is hidden",
             add2CartText: "inquire",
             revokeCheckout: true,
-            enableInquiry: true
+            enableInquiry: true,
+            emtpyCart: true,
+            disableAck: true
           },
           criteria: [
             [
