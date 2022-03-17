@@ -1,0 +1,57 @@
+.field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.inlineContent {
+  display: inline-block;
+}
+.field label {
+  font-weight: bold;
+}
+.field label,
+.field input,
+.field select {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.field.inlineContent label,
+.field.inlineContent input,
+.field.inlineContent select {
+  display: inline-block;
+  width: auto;
+  margin-bottom: 0;
+}
+.field input[type="number"] {
+  width: 5em;
+}
+.field.inlineContent label {
+  width: 200px;
+}
+@media (min-width: 600px) {
+  .field label,
+  .field input,
+  .field select {
+    display: inline-block;
+  }
+  .field label {
+    width: 200px;
+  }
+  .field input,
+  .field select {
+    width: 300px;
+  }
+}
+@media (min-width: 800px) {
+  .md {
+    vertical-align: top;
+  }
+  .md6 {
+    display: inline-block;
+    width: 50%;
+  }
+  .md3 {
+    display: inline-block;
+    width: 25%;
+  }
+}
