@@ -1,5 +1,7 @@
 import ConditionList from "./ConditionList";
+import Field from "./ui/Field";
 import Collapsible from "./ui/Collapsible";
+
 import { getHtmlId, getFieldValue, cn } from "../util.js";
 import st from "./css/common.module.css";
 
@@ -8,45 +10,39 @@ export default function Rule(props) {
   const { id, name, active, priority, fields, criteria } = rule;
 
   const FieldsComponent = fieldsComponent;
-  const handleChange = (e) => {
-    const rule = { [e.target.name]: getFieldValue(e) };
-    props.dispatch({
+
+  const getFieldProps = (name, value, type, layout) => ({
+    field: {
+      name,
+      value,
+      type,
+      id: `rule${id}-${name}`,
+      layout
+    },
+    action: {
       type: "UPDATE_RULE",
       ruleListId: props.ruleListId,
-      ruleId: id,
-      rule
-    });
-  };
-  const getFieldProps = (name, value) => ({
-    name,
-    id: getHtmlId(name),
-    value,
-    onChange: handleChange
+      ruleId: id
+    },
+    dispatch: props.dispatch,
+    key: "rule" + name
   });
+  console.log("rule", props);
   return (
     <div>
       <div>
-        <div className={cn([st.md, st.md6])}>
-          <div className={st.field}>
-            <label htmlFor={getHtmlId(`rule${id}-name`)}>Name</label>
-            <input type="text" {...getFieldProps("name", name)} />
-          </div>
+        <div className={st.md6}>
+          <Field {...getFieldProps("name", name)} />
         </div>
-        <div className={cn([st.md, st.md3])}>
-          <div className={cn([st.field, st.inlineContent])}>
-            <label htmlFor={getHtmlId(`rule${id}-active`)}>Active</label>
-            <input
-              type="checkbox"
-              {...getFieldProps("active", "1")}
-              checked={active}
-            />
-          </div>
+        <div className={st.md3}>
+          <Field
+            {...getFieldProps("active", active, "checkbox", "horizontal")}
+          />
         </div>
-        <div className={cn([st.md, st.md3])}>
-          <div className={cn([st.field, st.inlineContent])}>
-            <label htmlFor={getHtmlId(`rule${id}-priority`)}>priority</label>
-            <input type="number" {...getFieldProps("priority", priority)} />
-          </div>
+        <div className={st.md3}>
+          <Field
+            {...getFieldProps("priority", priority, "number", "horizontal")}
+          />
         </div>
       </div>
       <FieldsComponent fields={fields} ruleId={id} {...otherProps} />
