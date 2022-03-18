@@ -1,153 +1,144 @@
 /* ==== GRID SYSTEM ==== */
-
-.container {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .row {
-  position: relative;
   width: 100%;
 }
 
 .row [class^="col"] {
   float: left;
-  margin: 0.5rem 2%;
-  min-height: 0.125rem;
+  margin-right: 1%;
 }
-
-.col-1,
-.col-2,
-.col-3,
-.col-4,
-.col-5,
-.col-6,
-.col-7,
-.col-8,
-.col-9,
-.col-10,
-.col-11,
-.col-12 {
-  width: 96%;
+.row [class^="col"]::last-child {
+  margin-right: 0;
 }
-
-.col-1-sm {
-  width: 4.33%;
-}
-
-.col-2-sm {
-  width: 12.66%;
-}
-
-.col-3-sm {
-  width: 21%;
-}
-
-.col-4-sm {
-  width: 29.33%;
-}
-
-.col-5-sm {
-  width: 37.66%;
-}
-
-.col-6-sm {
-  width: 46%;
-}
-
-.col-7-sm {
-  width: 54.33%;
-}
-
-.col-8-sm {
-  width: 62.66%;
-}
-
-.col-9-sm {
-  width: 71%;
-}
-
-.col-10-sm {
-  width: 79.33%;
-}
-
-.col-11-sm {
-  width: 87.66%;
-}
-
-.col-12-sm {
-  width: 96%;
-}
-
 .row::after {
   content: "";
   display: table;
   clear: both;
 }
-
-.hidden-sm {
+.hidden-xs {
   display: none;
+}
+.col-md-1,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-md-10,
+.col-md-11,
+.col-md-12 {
+  width: 100%;
+}
+
+.col-xs-1 {
+  width: 4.33%;
+}
+
+.col-xs-2 {
+  width: 12.66%;
+}
+
+.col-xs-3 {
+  width: 21%;
+}
+
+.col-xs-4 {
+  width: 29.33%;
+}
+
+.col-xs-5 {
+  width: 37.66%;
+}
+
+.col-xs-6 {
+  width: 49%;
+}
+
+.col-xs-7 {
+  width: 54.33%;
+}
+
+.col-xs-8 {
+  width: 62.66%;
+}
+
+.col-xs-9 {
+  width: 71%;
+}
+
+.col-xs-10 {
+  width: 79.33%;
+}
+
+.col-xs-11 {
+  width: 87.66%;
+}
+
+.col-xs-12 {
+  width: 96%;
 }
 
 @media only screen and (min-width: 33.75em) {
   /* 540px */
-  .container {
-    width: 80%;
-  }
 }
 
 @media only screen and (min-width: 45em) {
   /* 720px */
-  .col-1 {
+  .row [class^="col"] {
+    margin-right: 2%;
+  }
+  .col-md-1 {
     width: 4.33%;
   }
 
-  .col-2 {
+  .col-md-2 {
     width: 12.66%;
   }
 
-  .col-3 {
-    width: 21%;
+  .col-md-3 {
+    width: 23%;
   }
 
-  .col-4 {
+  .col-md-4 {
     width: 29.33%;
   }
 
-  .col-5 {
+  .col-md-5 {
     width: 37.66%;
   }
 
-  .col-6 {
-    width: 46%;
+  .col-md-6 {
+    width: 48%;
   }
 
-  .col-7 {
+  .col-md-7 {
     width: 54.33%;
   }
 
-  .col-8 {
+  .col-md-8 {
     width: 62.66%;
   }
 
-  .col-9 {
-    width: 71%;
+  .col-md-9 {
+    width: 74%;
   }
 
-  .col-10 {
+  .col-md-10 {
     width: 79.33%;
   }
 
-  .col-11 {
+  .col-md-11 {
     width: 87.66%;
   }
 
-  .col-12 {
+  .col-md-12 {
     width: 96%;
   }
 
-  .hidden-sm {
+  .hidden-xs {
     display: block;
   }
 }
@@ -161,65 +152,48 @@
 }
 /*-------grid end-------*/
 .field {
-  width: 100%;
   margin-bottom: 10px;
 }
-.inlineContent {
-  display: inline-block;
+.field label,
+.field input[type="text"],
+.field select {
+  display: block;
+  width: 100%;
 }
 .field label {
   font-weight: bold;
 }
-.field label,
-.field input,
-.field select {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
+.field label::first-letter {
+  text-transform: uppercase;
 }
-.field.inlineContent label,
-.field.inlineContent input,
-.field.inlineContent select {
-  display: inline-block;
-  width: auto;
-  margin-bottom: 0;
+.field input[type="text"] {
+  margin-top: 10px;
 }
 .field input[type="number"] {
   width: 5em;
 }
-.field.inlineContent label {
-  width: 200px;
-}
-@media (min-width: 600px) {
-  .field label,
-  .field input,
-  .field select {
-    display: inline-block;
-  }
-  .field label {
-    width: 200px;
-  }
-  .field input,
-  .field select {
-    width: 300px;
+@media only screen and (min-width: 45em) {
+  .field input[type="text"] {
+    margin-top: 0;
   }
 }
-@media (min-width: 800px) {
-  .md {
-    vertical-align: top;
-  }
-  .md6 {
-    display: inline-block;
-    width: 50%;
-  }
-  .md3 {
-    display: inline-block;
-    width: 25%;
-  }
-}
-
 .condition {
   margin-bottom: 10px;
+}
+.condition [class="^col"] {
+  width: 100%;
+}
+.condition select,
+.condition input {
+  width: 100%;
+  margin-bottom: 5px;
+}
+@media only screen and (min-width: 45em) {
+  /* 720px */
+  .condition select,
+  .condition input {
+    margin-bottom: 0;
+  }
 }
 .part {
   width: 100%;

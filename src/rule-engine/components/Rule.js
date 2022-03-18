@@ -2,9 +2,6 @@ import ConditionList from "./ConditionList";
 import Field from "./ui/Field";
 import Collapsible from "./ui/Collapsible";
 
-import { getHtmlId, getFieldValue, cn } from "../util.js";
-import st from "./css/common.module.css";
-
 export default function Rule(props) {
   const { rule, fieldsComponent, ...otherProps } = props;
   const { id, name, active, priority, fields, criteria } = rule;
@@ -30,19 +27,15 @@ export default function Rule(props) {
   console.log("rule", props);
   return (
     <div>
-      <div>
-        <div className={st.md6}>
-          <Field {...getFieldProps("name", name)} />
+      <div className="row">
+        <div className="col-md-6">
+          <Field {...getFieldProps("name", name, "text")} />
         </div>
-        <div className={st.md3}>
-          <Field
-            {...getFieldProps("active", active, "checkbox", "horizontal")}
-          />
+        <div className="col-md-3">
+          <Field {...getFieldProps("active", active, "checkbox")} />
         </div>
-        <div className={st.md3}>
-          <Field
-            {...getFieldProps("priority", priority, "number", "horizontal")}
-          />
+        <div className="col-md-3">
+          <Field {...getFieldProps("priority", priority, "number", "inline")} />
         </div>
       </div>
       <FieldsComponent fields={fields} ruleId={id} {...otherProps} />

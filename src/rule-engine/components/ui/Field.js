@@ -1,11 +1,17 @@
 import React from "react";
-import st from "../css/Field.module.css";
+import "../../styles.css";
 
 export default function Field(props) {
   console.log(props);
   const { field, action, dispatch } = props;
-  const { name, value, label, type = "text", layout = "block" } = field;
-
+  const { name, value, label, type = "text" } = field;
+  let layout = field.layout;
+  if (!layout && "checkbox" === type) layout = "inline";
+  if ("inline" === layout)
+    layout = { label: "col-xs-6 col-md-6", input: "col-xs-6 col-md-6" };
+  else if (typeof layout !== "object")
+    layout = { label: "col-md-6", input: "col-md-6" };
+  console.log(name, props.layout, layout);
   const handleChange = (e) => {
     const field = { [e.target.name]: getFieldValue(e) };
     dispatch({
@@ -27,13 +33,14 @@ export default function Field(props) {
     }
     return obj;
   };
-  console.log(st);
   return (
-    <div
-      className={`${st.field} ${"block" === layout ? "" : st.horizontalField}`}
-    >
-      <label htmlFor={getHtmlId(name)}>{label ? label : name}</label>
-      <input type={type} {...getFieldProps()} />
+    <div className="field row">
+      <div className={layout.label}>
+        <label htmlFor={getHtmlId(name)}>{label ? label : name}</label>
+      </div>
+      <div className={layout.input}>
+        <input type={type} {...getFieldProps()} />
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import {
   getOperatorOptions,
   getKeyDefaultValue
 } from "../util";
-import styles from "./css/Condition.module.css";
+import "../styles.css";
 
 export default function Condition(props) {
   const { ruleListId, ruleId, condListIndex, condition, config } = props;
@@ -56,21 +56,21 @@ export default function Condition(props) {
     );
   } else
     inputField = <input name="value" value={value} onChange={handleChange} />;
-  const st = styles;
+
   return (
-    <div className={st.condition}>
-      <div className={`${st.part} ${st.key}`}>
+    <div className="condition row">
+      <div className="col-md-3 ">
         <select name="keyId" value={keyId} onChange={handleChange}>
           {getKeyOptions(config, ruleListId, condListIndex)}
         </select>
       </div>
-      <div className={`${st.part} ${st.operator}`}>
+      <div className="col-md-2">
         <select name="opId" value={opId} onChange={handleChange}>
           {getOperatorOptions(keyId)}
         </select>
       </div>
-      <div className={`${st.part} ${st.value}`}>{inputField}</div>
-      <div className={`${st.part} ${st.removeBtn}`}>
+      <div className="col-md-6">{inputField}</div>
+      <div className="col-md-1">
         <button
           onClick={(e) =>
             props.dispatch({
