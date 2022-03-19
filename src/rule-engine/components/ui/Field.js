@@ -1,16 +1,19 @@
 import React from "react";
+import Toggle from "react-toggle";
+//import "react-toggle/style.css";
+import "../../../toggle.css";
 
 export default function Field(props) {
-  console.log(props);
   const { field, action, dispatch } = props;
   const { name, value, label, type = "text" } = field;
+
   let layout = field.layout;
   if (!layout && "checkbox" === type) layout = "inline";
   if ("inline" === layout)
     layout = { label: "col-xs-6 col-md-6", input: "col-xs-6 col-md-6" };
   else if (typeof layout !== "object")
     layout = { label: "col-md-6", input: "col-md-6" };
-  console.log(name, props.layout, layout);
+
   const handleChange = (e) => {
     const field = { [e.target.name]: getFieldValue(e) };
     dispatch({
@@ -19,7 +22,7 @@ export default function Field(props) {
     });
   };
 
-  const getFieldProps = () => {
+  const getInputProps = () => {
     const obj = {
       name,
       id: getHtmlId(props.htmlId ? props.htmlId : name),
@@ -32,14 +35,31 @@ export default function Field(props) {
     }
     return obj;
   };
+
+  const renderInput = () => {
+    console.log(type);
+    switch (type) {
+      case "checkbox":
+        return (
+          <Toggle
+            icons={{
+              checked: "YES",
+              unchecked: "NO"
+            }}
+            {...getInputProps()}
+          />
+        );
+      default:
+        return <input type={type} {...getInputProps()} />;
+    }
+  };
+
   return (
     <div className="field row">
       <div className={layout.label}>
         <label htmlFor={getHtmlId(name)}>{label ? label : name}</label>
       </div>
-      <div className={layout.input}>
-        <input type={type} {...getFieldProps()} />
-      </div>
+      <div className={layout.input}>{renderInput()}</div>
     </div>
   );
 }
