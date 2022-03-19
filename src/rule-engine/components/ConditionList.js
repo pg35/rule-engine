@@ -1,12 +1,11 @@
 import Condition from "./Condition";
-import styles from "./css/ConditionList.module.css";
 
 export default function ConditionList(props) {
   const { conditions, ...otherProps } = props;
   const { ruleListId, ruleId, condListIndex, config } = props;
 
   return (
-    <div className={styles.conditionList}>
+    <div>
       {conditions.map((obj) => (
         <Condition key={obj.id} condition={obj} {...otherProps} />
       ))}

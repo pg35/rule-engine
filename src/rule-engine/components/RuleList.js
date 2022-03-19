@@ -20,7 +20,7 @@ export default function RuleList(props) {
           Add Rule
         </button>
         {rules.map((rule) => (
-          <Collapsible title={"Rule"} key={rule.id}>
+          <Collapsible title={"Rule"} altIcon key={rule.id}>
             <Rule rule={rule} ruleListId={id} {...otherProps} />
             <button
               onClick={(e) =>

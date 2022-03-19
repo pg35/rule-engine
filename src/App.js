@@ -8,6 +8,7 @@ import {
   prepareState
 } from "./utility";
 import "./styles.css";
+import "./rule-engine/styles.css";
 
 export default function App(props) {
   const [state, dispatch] = useReducer(reducer, {
@@ -25,10 +26,27 @@ export default function App(props) {
     });
   }, []);
 
+  const save = (e) => {
+    dispatch({
+      type: "FETCHING",
+      fetching: true
+    });
+    doAjax({
+      action: "save",
+      state
+    }).then((response) => {
+      console.log("save", response);
+      dispatch({
+        type: "FETCHING",
+        fetching: false
+      });
+    });
+  };
+
   const reDispatch = (action) =>
     dispatch({ ...action, type: "RE_" + action.type });
-  //console.log(state);
-  const { init, rules } = state;
+  console.log("state", state);
+  const { init, rules, fetching } = state;
   return !init ? (
     <AppLoading />
   ) : (
@@ -43,6 +61,9 @@ export default function App(props) {
           dispatch={reDispatch}
         />
       ))}
+      <button className="primary-button" onClick={save}>
+        {fetching ? "Saving..." : "Save changes"}
+      </button>
     </div>
   );
 }

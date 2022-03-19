@@ -27,6 +27,14 @@ export let ajaxGlobals = {
   credentials: "same-origin"
 };
 const dummyResponses = {
+  seed1: {
+    rules: {
+      inquiry: [],
+      cart: [],
+      nextId: 0
+    },
+    objects: { 1: [] }
+  },
   seed: {
     rules: {
       inquiry: [
@@ -64,14 +72,15 @@ const dummyResponses = {
         3: { name: "hello world" }
       }
     }
-  }
+  },
+  save: "changed saved."
 };
 
 function doAjaxDummy(options, url) {
   return new Promise(function (r, re) {
     setTimeout(() => {
       r(dummyResponses[options.action]);
-    }, 200);
+    }, 2000);
   });
 }
 function doAjax(options, url) {
@@ -87,25 +96,28 @@ function buildSelectOptions(ids, map) {
   }));
 }
 
-function objIdsToSelectOptions(rules, objects) {
+function mapConditions(rules, func) {
   for (const p in rules) {
     if (Array.isArray(rules[p])) {
       rules[p].forEach((rule) =>
-        rule.criteria.forEach((list) =>
-          list.forEach((obj) => {
-            if (objects[obj.keyId]) {
-              obj.value = buildSelectOptions(obj.value, objects[obj.keyId]);
-            }
-          })
-        )
+        rule.criteria.forEach((list) => (list = list.forEach(func)))
       );
     }
   }
   return rules;
 }
 export function prepareState(data) {
+  const objects = data.objects;
   return {
-    rules: objIdsToSelectOptions(data.rules, data.objects)
+    init: false,
+    fetching: false,
+    //rules: objIdsToSelectOptions(data.rules, data.objects)
+    rules: mapConditions(data.rules, function (obj) {
+      if (objects[obj.keyId]) {
+        obj.value = buildSelectOptions(obj.value, objects[obj.keyId]);
+      }
+      return obj;
+    })
   };
 }
 export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy };

@@ -1,5 +1,4 @@
 import React from "react";
-import "../../styles.css";
 
 export default function Field(props) {
   console.log(props);

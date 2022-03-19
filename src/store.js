@@ -16,6 +16,11 @@ export function reducer(state, action) {
         ...action.state,
         init: true
       };
+    case "FETCHING":
+      return {
+        ...state,
+        fetching: action.fetching
+      };
 
     default:
       throw new Error("Store: Invalid action" + action.type);
