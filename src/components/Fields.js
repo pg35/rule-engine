@@ -9,7 +9,9 @@ export default function Fields(props) {
     priceText: "",
     add2CartText: "",
     revokeCheckout: false,
-    enableInquiry: false
+    enableInquiry: false,
+    emtpyCart: false,
+    disableAck: false
   };
   const obj = { ...defaultValues, ...fields };
 

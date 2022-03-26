@@ -1,5 +1,12 @@
 function createRule(id) {
-  return { id, props: {}, criteria: [[], []] };
+  return {
+    id,
+    name: "",
+    active: true,
+    priority: "",
+    props: {},
+    criteria: [[], []]
+  };
 }
 function createCondition(id) {
   return { id, keyId: 2, opId: 3, value: "" };
