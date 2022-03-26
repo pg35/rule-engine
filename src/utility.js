@@ -77,6 +77,7 @@ const dummyResponses = {
 };
 
 function doAjaxDummy(options, url) {
+  console.log("ajax", options);
   return new Promise(function (r, re) {
     setTimeout(() => {
       r(dummyResponses[options.action]);
@@ -89,14 +90,18 @@ function doAjax(options, url) {
     .then(parseJSON);
 }
 
-function buildSelectOptions(ids, map) {
+function ids2Options(ids, map) {
   return ids.map((id) => ({
     value: id,
     label: map[id] ? map[id].name : `NameNotFound (#${id})`
   }));
 }
 
-function mapConditions(rules, func) {
+function options2Ids(options) {
+  return options.map((obj) => obj.value);
+}
+
+function iterateConditions(rules, func) {
   for (const p in rules) {
     if (Array.isArray(rules[p])) {
       rules[p].forEach((rule) =>
@@ -106,18 +111,43 @@ function mapConditions(rules, func) {
   }
   return rules;
 }
-export function prepareState(data) {
-  const objects = data.objects;
+
+function mapConditions(rules, func) {
+  const newRules = {};
+  for (const p in rules) {
+    if (Array.isArray(rules[p])) {
+      newRules[p] = rules[p].map((rule) => ({
+        ...rule,
+        criteria: rule.criteria.map((list) => list.map(func))
+      }));
+    } else newRules[p] = rules[p];
+  }
+  return newRules;
+}
+
+let keyId2Objects;
+export function prepareInitState(data) {
+  keyId2Objects = data.objects;
   return {
     init: false,
+    dirty: false,
     fetching: false,
-    //rules: objIdsToSelectOptions(data.rules, data.objects)
-    rules: mapConditions(data.rules, function (obj) {
-      if (objects[obj.keyId]) {
-        obj.value = buildSelectOptions(obj.value, objects[obj.keyId]);
-      }
-      return obj;
-    })
+    rules: mapConditions(data.rules, (obj) => ({
+      ...obj,
+      value: keyId2Objects[obj.keyId]
+        ? ids2Options(obj.value, keyId2Objects[obj.keyId])
+        : obj.value
+    }))
   };
 }
+
+export function prepareSaveState(state) {
+  return {
+    rules: mapConditions(state.rules, (obj) => ({
+      ...obj,
+      value: keyId2Objects[obj.keyId] ? options2Ids(obj.value) : obj.value
+    }))
+  };
+}
+
 export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy };

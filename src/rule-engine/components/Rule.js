@@ -24,7 +24,7 @@ export default function Rule(props) {
     dispatch: props.dispatch,
     key: "rule" + name
   });
-  console.log("rule", props);
+  //console.log("rule", props);
   return (
     <div>
       <div className="row">

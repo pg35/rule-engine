@@ -5,7 +5,8 @@ import { reducer } from "./store";
 import {
   //  doAjax,
   doAjaxDummy as doAjax,
-  prepareState
+  prepareInitState,
+  prepareSaveState
 } from "./utility";
 import "./styles.css";
 import "./rule-engine/styles.css";
@@ -21,7 +22,8 @@ export default function App(props) {
     }).then((response) => {
       dispatch({
         type: "INIT",
-        state: prepareState(response)
+        flag: true,
+        state: prepareInitState(response)
       });
     });
   }, []);
@@ -29,16 +31,20 @@ export default function App(props) {
   const save = (e) => {
     dispatch({
       type: "FETCHING",
-      fetching: true
+      flag: true
     });
     doAjax({
       action: "save",
-      state
+      data: prepareSaveState(state)
     }).then((response) => {
-      console.log("save", response);
+      console.log("save response", response);
       dispatch({
         type: "FETCHING",
-        fetching: false
+        flag: false
+      });
+      dispatch({
+        type: "DIRTY",
+        flag: false
       });
     });
   };
@@ -46,7 +52,7 @@ export default function App(props) {
   const reDispatch = (action) =>
     dispatch({ ...action, type: "RE_" + action.type });
   console.log("state", state);
-  const { init, rules, fetching } = state;
+  const { init, rules, fetching, dirty } = state;
   return !init ? (
     <AppLoading />
   ) : (
@@ -61,7 +67,11 @@ export default function App(props) {
           dispatch={reDispatch}
         />
       ))}
-      <button className="primary-button" onClick={save}>
+      <button
+        className="primary-button"
+        onClick={save}
+        disabled={!dirty ? true : false}
+      >
         {fetching ? "Saving..." : "Save changes"}
       </button>
     </div>

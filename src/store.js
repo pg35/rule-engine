@@ -1,10 +1,11 @@
 import { reducer as ruleEngineReducer } from "./rule-engine/reducer";
 
 export function reducer(state, action) {
-  console.log(state, action);
+  console.log("reducer", action);
   if (0 === action.type.indexOf("RE_"))
     return {
       ...state,
+      dirty: true,
       rules: ruleEngineReducer(state.rules, {
         ...action,
         type: action.type.substr(3)
@@ -14,12 +15,13 @@ export function reducer(state, action) {
     case "INIT":
       return {
         ...action.state,
-        init: true
+        init: action.flag
       };
     case "FETCHING":
+    case "DIRTY":
       return {
         ...state,
-        fetching: action.fetching
+        [action.type.toLowerCase()]: action.flag
       };
 
     default:

@@ -37,7 +37,6 @@ export default function Field(props) {
   };
 
   const renderInput = () => {
-    console.log(type);
     switch (type) {
       case "checkbox":
         return (

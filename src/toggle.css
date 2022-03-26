@@ -49,11 +49,11 @@
 }
 
 .react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
-  background-color: #555;
+  background-color: #acacac;
 }
 
 .react-toggle--checked .react-toggle-track {
-  background-color: #19ab27;
+  background-color: #006400;
 }
 
 .react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
@@ -72,6 +72,7 @@
   -webkit-transition: opacity 0.25s ease;
   -moz-transition: opacity 0.25s ease;
   transition: opacity 0.25s ease;
+  font-size: 0.9em;
   font-weight: bold;
   color: #fff;
 }
@@ -95,6 +96,7 @@
   -webkit-transition: opacity 0.25s ease;
   -moz-transition: opacity 0.25s ease;
   transition: opacity 0.25s ease;
+  font-size: 0.9em;
   font-weight: bold;
   color: #fff;
 }

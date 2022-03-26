@@ -14,7 +14,7 @@ export default function ProductSelect(props) {
     return allOptions.filter((obj) => obj.label.toLowerCase().includes(s));
   };
   const loadOptions = (inputValue, callback) => {
-    console.log("loadotions " + (inputValue ? inputValue : "emtpy"));
+    //console.log("loadotions " + (inputValue ? inputValue : "emtpy"));
     doAjax({}).then((response) => {
       callback(filterProducts(inputValue));
     });
