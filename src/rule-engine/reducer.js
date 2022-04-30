@@ -24,6 +24,19 @@ export function reducer(state, action) {
         ),
         nextId
       };
+    case "DUPLICATE_RULE":
+      nextId = state.nextId + 1;
+      return {
+        ...state,
+        [action.ruleListId]: state[action.ruleListId].concat({
+          ...createRule(nextId),
+          ...state[action.ruleListId].filter(
+            (rule) => action.ruleId === rule.id
+          )[0],
+          id: nextId
+        }),
+        nextId
+      };
     case "REMOVE_RULE":
       return {
         ...state,
@@ -31,6 +44,7 @@ export function reducer(state, action) {
           (rule) => action.ruleId !== rule.id
         )
       };
+
     case "UPDATE_RULE":
       return {
         ...state,

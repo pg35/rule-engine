@@ -5,7 +5,7 @@ import {
   getOperatorOptions,
   getKeyDefaultValue
 } from "../util";
-import "../styles.css";
+//import "../styles.css";
 
 export default function Condition(props) {
   const { ruleListId, ruleId, condListIndex, condition, config } = props;

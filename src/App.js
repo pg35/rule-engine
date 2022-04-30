@@ -8,8 +8,8 @@ import {
   prepareInitState,
   prepareSaveState
 } from "./utility";
-import "./styles.css";
-import "./rule-engine/styles.css";
+//import "./styles.css";
+//import "./rule-engine/styles.css";
 
 export default function App(props) {
   const [state, dispatch] = useReducer(reducer, {
@@ -67,13 +67,15 @@ export default function App(props) {
           dispatch={reDispatch}
         />
       ))}
-      <button
-        className="primary-button"
-        onClick={save}
-        disabled={!dirty ? true : false}
-      >
-        {fetching ? "Saving..." : "Save changes"}
-      </button>
+      <p className="submit">
+        <button
+          className="button button-primary"
+          onClick={save}
+          disabled={!dirty ? true : false}
+        >
+          {fetching ? "Saving..." : "Save changes"}
+        </button>
+      </p>
     </div>
   );
 }

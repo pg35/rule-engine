@@ -40,17 +40,20 @@ export default function Rule(props) {
       </div>
       <FieldsComponent fields={fields} ruleId={id} {...otherProps} />
       {criteria.map((conditions, index) => (
-        <Collapsible
-          title={props.config.criteria[index].label}
-          key={`${id}-${index}`}
+        <div
+          className="row field criteria"
+          key={props.config.criteria[index].labels.field}
         >
+          <div>
+            <label>{props.config.criteria[index].labels.field}</label>
+          </div>
           <ConditionList
             conditions={conditions}
             condListIndex={index}
             ruleId={id}
             {...otherProps}
           />
-        </Collapsible>
+        </div>
       ))}
     </div>
   );

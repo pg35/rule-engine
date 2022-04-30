@@ -33,75 +33,73 @@ export default function Fields(props) {
     key: "rule" + name
   });
   return (
-    <div>
-      <div className="row">
-        <div className="col-md-6">
+    <div className="row">
+      <div className="col-md-6">
+        <Field
+          {...getFieldProps(
+            "hidePrice",
+            obj.hidePrice,
+            "checkbox",
+            "Hide price"
+          )}
+        />
+        {obj.hidePrice ? (
           <Field
             {...getFieldProps(
-              "hidePrice",
-              obj.hidePrice,
-              "checkbox",
-              "Hide price"
+              "priceText",
+              obj.priceText,
+              "text",
+              "Show as price"
             )}
           />
-          {obj.hidePrice ? (
+        ) : null}
+        <Field
+          {...getFieldProps(
+            "add2CartText",
+            obj.add2CartText,
+            "text",
+            "Add To Cart button text"
+          )}
+        />
+      </div>
+
+      <div className="col-md-6">
+        <Field
+          {...getFieldProps(
+            "revokeCheckout",
+            obj.revokeCheckout,
+            "checkbox",
+            "Revoke checkout"
+          )}
+        />
+        <Field
+          {...getFieldProps(
+            "enableInquiry",
+            obj.enableInquiry,
+            "checkbox",
+            "Allow inquiry"
+          )}
+        />
+        {obj.enableInquiry ? (
+          <>
             <Field
               {...getFieldProps(
-                "priceText",
-                obj.priceText,
-                "text",
-                "Show as price"
+                "emtpyCart",
+                obj.emtpyCart,
+                "checkbox",
+                "Empty cart after inquiry"
               )}
             />
-          ) : null}
-          <Field
-            {...getFieldProps(
-              "add2CartText",
-              obj.add2CartText,
-              "text",
-              "Add To Cart button text"
-            )}
-          />
-        </div>
-
-        <div className="col-md-6">
-          <Field
-            {...getFieldProps(
-              "revokeCheckout",
-              obj.revokeCheckout,
-              "checkbox",
-              "Revoke checkout"
-            )}
-          />
-          <Field
-            {...getFieldProps(
-              "enableInquiry",
-              obj.enableInquiry,
-              "checkbox",
-              "Allow inquiry"
-            )}
-          />
-          {obj.enableInquiry ? (
-            <>
-              <Field
-                {...getFieldProps(
-                  "emtpyCart",
-                  obj.emtpyCart,
-                  "checkbox",
-                  "Empty cart after inquiry"
-                )}
-              />
-              <Field
-                {...getFieldProps(
-                  "disableAck",
-                  obj.disableAck,
-                  "checkbox",
-                  "Disable acknowledgement email"
-                )}
-              />
-            </>
-          ) : null}
-        </div>
+            <Field
+              {...getFieldProps(
+                "disableAck",
+                obj.disableAck,
+                "checkbox",
+                "Disable acknowledgement email"
+              )}
+            />
+          </>
+        ) : null}
       </div>
     </div>
   );

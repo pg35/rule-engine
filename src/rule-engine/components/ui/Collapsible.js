@@ -7,22 +7,15 @@ export default function Collapsible(props) {
     collapsedHeight: props.collapsedHeight || 0
   };
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
-  const { altIcon = false } = props;
+  const { headerContent = null, className = "" } = props;
 
   return (
-    <div className="collapsible">
-      <div className="header" {...getToggleProps()}>
-        <div className="title">{props.title}</div>
-        <div className="icon">
-          <i
-            className={`dashicons dashicons-arrow-${
-              isExpanded ? "up" : "down"
-            }${altIcon ? "-alt" : ""}`}
-          ></i>
-        </div>
+    <div className={`collapsible ${className}`}>
+      <div className="collapsible__header" {...getToggleProps()}>
+        {headerContent}
       </div>
       <div {...getCollapseProps()}>
-        <div className="content">{props.children}</div>
+        <div className="collapsible__content">{props.children}</div>
       </div>
     </div>
   );

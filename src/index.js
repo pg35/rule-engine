@@ -2,28 +2,53 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 
 import App from "./App";
+//import "./wp.css";
 
 const rulesConfig = {
   inquiry: {
     label: "Inquiry",
     criteria: [
       {
-        label: "Select products",
+        labels: {
+          field: "Products",
+          empty: "Applies to all products.",
+          addNew: "Add Products"
+        },
         descritpion: "",
         keyIds: [1, 2, 3]
       },
-      { label: "Select conditions", descritpion: "", keyIds: [2] }
+      {
+        labels: {
+          field: "Conditions",
+          empty: "Applies in all cases.",
+          addNew: "Add Condition"
+        },
+        descritpion: "",
+        keyIds: [2]
+      }
     ]
   },
   cart: {
     label: "Cart",
     criteria: [
       {
-        label: "Select products",
+        labels: {
+          field: "Products",
+          empty: "Applies to all products",
+          addNew: "Add Products"
+        },
         descritpion: "",
         keyIds: [1, 2, 3]
       },
-      { label: "Select conditions", descritpion: "", keyIds: [2] }
+      {
+        labels: {
+          field: "Conditions",
+          empty: "Applies in all cases.",
+          addNew: "Add Condition"
+        },
+        descritpion: "",
+        keyIds: [2]
+      }
     ]
   }
 };

@@ -1,18 +1,20 @@
 import React from "react";
 import Toggle from "react-toggle";
 //import "react-toggle/style.css";
-import "../../../toggle.css";
+//import "../../../toggle.css";
 
 export default function Field(props) {
   const { field, action, dispatch } = props;
-  const { name, value, label, type = "text" } = field;
+  const { name, id, value, label, type = "text" } = field;
 
   let layout = field.layout;
   if (!layout && "checkbox" === type) layout = "inline";
   if ("inline" === layout)
-    layout = { label: "col-xs-6 col-md-6", input: "col-xs-6 col-md-6" };
+    layout = { label: "col-xs-9 col-md-6", input: "col-xs-3 col-md-6" };
   else if (typeof layout !== "object")
     layout = { label: "col-md-6", input: "col-md-6" };
+
+  const htmlId = `mwre-${id ? id : name}`;
 
   const handleChange = (e) => {
     const field = { [e.target.name]: getFieldValue(e) };
@@ -25,7 +27,7 @@ export default function Field(props) {
   const getInputProps = () => {
     const obj = {
       name,
-      id: getHtmlId(props.htmlId ? props.htmlId : name),
+      id: htmlId,
       value,
       onChange: handleChange
     };
@@ -54,20 +56,16 @@ export default function Field(props) {
   };
 
   return (
-    <div className="field row">
+    <div className={`row field field-${name}`}>
       <div className={layout.label}>
-        <label htmlFor={getHtmlId(name)}>{label ? label : name}</label>
+        <label htmlFor={htmlId}>{label ? label : name}</label>
       </div>
       <div className={layout.input}>{renderInput()}</div>
     </div>
   );
 }
 
-export function getHtmlId(name, prefix = "mwre") {
-  return `${prefix}_${name}`;
-}
-
-export function getFieldValue(e) {
+function getFieldValue(e) {
   switch (e.target.type) {
     case "checkbox":
       return e.target.checked;
