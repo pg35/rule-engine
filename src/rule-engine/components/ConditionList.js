@@ -19,7 +19,7 @@ export default function ConditionList(props) {
 
         <div className="objlist__add">
           <button
-            className="button button-secondary"
+            className="button"
             onClick={(e) =>
               props.dispatch({
                 type: "ADD_CONDITION",

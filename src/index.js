@@ -12,7 +12,7 @@ const rulesConfig = {
         labels: {
           field: "Products",
           empty: "Applies to all products.",
-          addNew: "Add Products"
+          addNew: "Add Product"
         },
         descritpion: "",
         keyIds: [1, 2, 3]

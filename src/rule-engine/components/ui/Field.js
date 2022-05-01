@@ -5,14 +5,15 @@ import Toggle from "react-toggle";
 
 export default function Field(props) {
   const { field, action, dispatch } = props;
-  const { name, id, value, label, type = "text" } = field;
+  const { name, id, value, label, type = "text", layout } = field;
 
-  let layout = field.layout;
+  /*let layout = field.layout;
   if (!layout && "checkbox" === type) layout = "inline";
   if ("inline" === layout)
     layout = { label: "col-xs-9 col-md-6", input: "col-xs-3 col-md-6" };
   else if (typeof layout !== "object")
     layout = { label: "col-md-6", input: "col-md-6" };
+  */
 
   const htmlId = `mwre-${id ? id : name}`;
 
@@ -56,11 +57,11 @@ export default function Field(props) {
   };
 
   return (
-    <div className={`row field field-${name}`}>
-      <div className={layout.label}>
+    <div className={`field field-${name} field-${type}`}>
+      <div className="field__label">
         <label htmlFor={htmlId}>{label ? label : name}</label>
       </div>
-      <div className={layout.input}>{renderInput()}</div>
+      <div className="field__input">{renderInput()}</div>
     </div>
   );
 }

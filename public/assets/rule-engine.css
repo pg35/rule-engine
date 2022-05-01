@@ -85,7 +85,7 @@
   /* 540px */
 }
 
-@media only screen and (min-width: 45em) {
+@media only screen and (min-width: 60em) {
   /* 720px */
   .row [class^="col"] {
     margin-right: 2%;
@@ -149,13 +149,20 @@
 
 /* ==== FIELD ==== */
 .field {
+  position: relative;
   margin-bottom: 10px;
+}
+.field:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 .field label,
 .field input[type="text"],
 .field select {
   display: block;
   width: 100%;
+  max-width: none;
 }
 .field label {
   font-weight: bold;
@@ -163,37 +170,44 @@
 .field label::first-letter {
   text-transform: uppercase;
 }
-.field input[type="text"] {
-  margin-top: 5px;
-}
 .field input[type="number"] {
   width: 5em;
 }
-@media only screen and (min-width: 45em) {
-  .field input[type="text"] {
-    margin-top: 0;
+.field__label {
+  margin-bottom: 5px;
+}
+.field--text > .field__label {
+  margin-bottom: 5px;
+}
+@media (min-width: 400px) {
+  .field-checkbox .field__label,
+  .field-checkbox .field__input {
+    display: block;
+  }
+  .field-checkbox .field__label {
+    margin-bottom: 0;
+    vertical-align: top;
+    float: left;
+  }
+  .field-checkbox .field__input {
+    margin-bottom: 0;
+    vertical-align: top;
+    float: right;
+  }
+}
+@media (min-width: 500px) {
+  .field__label,
+  .field__input {
+    width: 50%;
+  }
+  .field__label {
+    float: left;
+  }
+  .field__input {
+    float: right;
   }
 }
 
-/* ==== CONDITION ==== */
-.condition {
-  margin-bottom: 10px;
-}
-.condition [class="^col"] {
-  width: 100%;
-}
-.condition select,
-.condition input {
-  width: 100%;
-  margin-bottom: 5px;
-}
-@media only screen and (min-width: 45em) {
-  /* 720px */
-  .condition select,
-  .condition input {
-    margin-bottom: 0;
-  }
-}
 /*common*/
 .icon {
   color: #ccc;
@@ -201,6 +215,16 @@
 }
 .icon:hover {
   color: #555;
+}
+button.icon {
+  border: none;
+  background: transparent;
+}
+.btn-remove:hover {
+  color: red;
+}
+.sort-handle {
+  margin-right: 10px;
 }
 .collapsible__header {
   padding: 10px;
@@ -257,9 +281,7 @@
 .rule--active > .collapsible__header {
   border-left: 5px solid #118238;
 }
-.rule__sort-handle {
-  margin-right: 10px;
-}
+
 .rule__title {
   font-weight: bold;
   word-break: break-word;
@@ -267,13 +289,56 @@
 .rule__header-btns {
   float: right;
 }
-.rule__header-btns > button {
-  border: none;
-  background: transparent;
-}
-.rule-btn-remove:hover {
-  color: red;
-}
+
 .conditionlist {
   margin-top: 5px;
+  background: #fcfcfc;
+}
+.condition {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.condition > div {
+  margin: 0 0 5px 0;
+}
+@media (min-width: 650px) {
+  .condition {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+  .condition > div {
+    margin: 0 5px 0 0;
+  }
+  .condition__key {
+    width: 25%;
+  }
+  .condition__op {
+    width: 25%;
+  }
+  .condition__val {
+    width: 44%;
+    flex-grow: 2;
+  }
+  .condition__remove {
+    width: 5%;
+  }
+}
+@media (min-width: 1280px) {
+  .condition__key {
+    width: 23%;
+  }
+  .condition__op {
+    width: 17%;
+  }
+  .condition__val {
+    width: 54%;
+    flex-grow: 2;
+  }
+  .condition__remove {
+    width: 3%;
+  }
+}
+.product-select {
+  width: 100%;
 }

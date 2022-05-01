@@ -55,23 +55,30 @@ export default function Condition(props) {
       />
     );
   } else
-    inputField = <input name="value" value={value} onChange={handleChange} />;
+    inputField = (
+      <input type="text" name="value" value={value} onChange={handleChange} />
+    );
 
   return (
-    <div className="condition row">
-      <div className="col-md-3 ">
+    <div className="condition">
+      <div className="icon sort-handle">
+        <i className="dashicons dashicons-menu"></i>
+      </div>
+      <div className="condition__key">
         <select name="keyId" value={keyId} onChange={handleChange}>
           {getKeyOptions(config, ruleListId, condListIndex)}
         </select>
       </div>
-      <div className="col-md-2">
+      <div className="condition__op">
         <select name="opId" value={opId} onChange={handleChange}>
           {getOperatorOptions(keyId)}
         </select>
       </div>
-      <div className="col-md-6">{inputField}</div>
-      <div className="col-md-1">
+      <div className="condition__val">{inputField}</div>
+      <div className="condition__remove">
         <button
+          title="Delete"
+          className="icon btn-remove"
           onClick={(e) =>
             props.dispatch({
               type: "REMOVE_CONDITION",
@@ -82,8 +89,7 @@ export default function Condition(props) {
             })
           }
         >
-          {" "}
-          X{" "}
+          <i className="dashicons dashicons-no-alt"></i>
         </button>
       </div>
     </div>

@@ -22,12 +22,13 @@ export default function RuleList(props) {
               }`}
               headerContent={
                 <>
-                  <span className="icon rule__sort-handle">
+                  <span className="icon sort-handle">
                     <i className="dashicons dashicons-menu"></i>
                   </span>
                   <span className="rule__title">{rule.name}</span>
                   <span className="rule__header-btns">
                     <button
+                      title="Duplicate"
                       className="icon rule-btn-duplicate"
                       onClick={(e) => {
                         dispatch({
@@ -41,7 +42,8 @@ export default function RuleList(props) {
                       <i className="dashicons dashicons-admin-page"></i>
                     </button>
                     <button
-                      className="icon rule-btn-remove"
+                      title="Delete"
+                      className="icon btn-remove rule-btn-remove"
                       onClick={(e) =>
                         dispatch({
                           type: "REMOVE_RULE",
@@ -62,7 +64,7 @@ export default function RuleList(props) {
         )}
         <div className="objlist__add">
           <button
-            className="button button-secondary"
+            className="button"
             onClick={(e) =>
               dispatch({
                 type: "ADD_RULE",
