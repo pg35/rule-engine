@@ -1,4 +1,8 @@
 import Rule from "./Rule";
+import RuleHeader from "./RuleHeader";
+import DragDropContext from "./ui/DragDropContext";
+import Droppable from "./ui/Droppable";
+import Draggable from "./ui/Draggable";
 import Collapsible from "./ui/Collapsible";
 
 export default function RuleList(props) {
@@ -14,53 +18,44 @@ export default function RuleList(props) {
         {!rules.length ? (
           <div className="objlist__empty">No rules configured.</div>
         ) : (
-          rules.map((rule) => (
-            <Collapsible
-              key={rule.id}
-              className={`rule rule-${rule.id} ${
-                rule.active ? "rule--active" : ""
-              }`}
-              headerContent={
-                <>
-                  <span className="icon sort-handle">
-                    <i className="dashicons dashicons-menu"></i>
-                  </span>
-                  <span className="rule__title">{rule.name}</span>
-                  <span className="rule__header-btns">
-                    <button
-                      title="Duplicate"
-                      className="icon rule-btn-duplicate"
-                      onClick={(e) => {
-                        dispatch({
-                          type: "DUPLICATE_RULE",
-                          ruleListId: id,
-                          ruleId: rule.id
-                        });
-                        e.stopPropagation();
-                      }}
-                    >
-                      <i className="dashicons dashicons-admin-page"></i>
-                    </button>
-                    <button
-                      title="Delete"
-                      className="icon btn-remove rule-btn-remove"
-                      onClick={(e) =>
-                        dispatch({
-                          type: "REMOVE_RULE",
-                          ruleListId: id,
-                          ruleId: rule.id
-                        })
+          <DragDropContext
+            onDragEnd={(sourceIndex, destIndex) => {
+              if ("undefined" !== typeof destIndex) {
+                dispatch({
+                  type: "SWAP_RULE",
+                  ruleListId: id,
+                  sourceIndex,
+                  destIndex
+                });
+              }
+            }}
+          >
+            <Droppable id={id} type={id}>
+              {rules.map((rule, index) => (
+                <Draggable key={rule.id} id={rule.id.toString()} index={index}>
+                  {(draggableProps) => (
+                    <Collapsible
+                      key={rule.id}
+                      className={`rule rule-${rule.id} ${
+                        rule.active ? "rule--active" : ""
+                      } ${draggableProps.isDragging ? "rule--dragging" : ""}`}
+                      headerContent={
+                        <div {...draggableProps.dragHandleProps}>
+                          <RuleHeader
+                            ruleListId={id}
+                            rule={rule}
+                            dispatch={dispatch}
+                          />
+                        </div>
                       }
                     >
-                      <i className="dashicons dashicons-no-alt"></i>
-                    </button>
-                  </span>
-                </>
-              }
-            >
-              <Rule rule={rule} ruleListId={id} {...otherProps} />
-            </Collapsible>
-          ))
+                      <Rule rule={rule} ruleListId={id} {...otherProps} />
+                    </Collapsible>
+                  )}
+                </Draggable>
+              ))}
+            </Droppable>
+          </DragDropContext>
         )}
         <div className="objlist__add">
           <button

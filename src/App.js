@@ -3,7 +3,7 @@ import Fields from "./components/Fields";
 import RuleList from "./rule-engine/components/RuleList";
 import { reducer } from "./store";
 import {
-  //  doAjax,
+  // doAjax,
   doAjaxDummy as doAjax,
   prepareInitState,
   prepareSaveState

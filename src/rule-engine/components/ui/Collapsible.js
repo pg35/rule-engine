@@ -1,4 +1,3 @@
-import React from "react";
 import useCollapse from "react-collapsed";
 
 export default function Collapsible(props) {
@@ -6,7 +5,7 @@ export default function Collapsible(props) {
     defaultExpanded: props.defaultExpanded || true,
     collapsedHeight: props.collapsedHeight || 0
   };
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
+  const { getCollapseProps, getToggleProps } = useCollapse(config);
   const { headerContent = null, className = "" } = props;
 
   return (

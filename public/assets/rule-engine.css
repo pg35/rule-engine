@@ -275,6 +275,9 @@ button.icon {
 .rule {
   margin-bottom: 2px;
 }
+.rule--dragging > .collapsible__header {
+  border: 2px dotted #a8a8a8;
+}
 .rule > .collapsible__header {
   border-left: 5px solid #aaa;
 }

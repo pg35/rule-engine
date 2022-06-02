@@ -1,9 +1,15 @@
-const ajaxUrl = "undefined" === typeof ajaxurl ? "" : ajaxurl;
-const spinnerUrl =
-  "undefined" === typeof mwqcSpinnerUrl
-    ? "http://immi.epizy.com/wp-includes/images/spinner.gif"
-    : mwqcSpinnerUrl;
+import axios from "axios";
+import { slug, ajaxUrl } from "./config";
+import { dummyResponses } from "./dummy";
 
+const axiosInstance = axios.create({
+  baseURL: ajaxUrl,
+  timeout: 5000, //5 secs
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+  }
+});
+/*
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -18,65 +24,18 @@ function checkStatus(response) {
 function parseJSON(response) {
   return response.json();
 }
+
 export let ajaxGlobals = {
   method: "POST",
   body: "",
   headers: {
-    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
   },
   credentials: "same-origin"
 };
-const dummyResponses = {
-  seed1: {
-    rules: {
-      inquiry: [],
-      cart: [],
-      nextId: 0
-    },
-    objects: { 1: [] }
-  },
-  seed: {
-    rules: {
-      inquiry: [
-        {
-          id: 1,
-          name: "firt rule",
-          active: true,
-          priority: 100,
-          fields: {
-            hidePrice: true,
-            priceText: "price is hidden",
-            add2CartText: "inquire",
-            revokeCheckout: true,
-            enableInquiry: true,
-            emtpyCart: true,
-            disableAck: true
-          },
-          criteria: [
-            [
-              { id: 100, keyId: 1, opId: 1, value: [1, 3, 4] },
-              { id: 101, keyId: 2, opId: 3, value: 55.32 }
-            ],
-            []
-          ]
-        }
-      ],
-      cart: [],
-      nextId: 500
-      //{ id: 1, keyId: 3, opId: 1, value: ['198.0.0.1','172.0.0.16'] },
-    },
-    objects: {
-      1: {
-        1: { name: "imran" },
-        2: { name: "ali" },
-        3: { name: "hello world" }
-      }
-    }
-  },
-  save: "changed saved."
-};
+*/
 
-function doAjaxDummy(options, url) {
+function doAjaxDummy(options) {
   console.log("ajax", options);
   return new Promise(function (r, re) {
     setTimeout(() => {
@@ -84,23 +43,31 @@ function doAjaxDummy(options, url) {
     }, 2000);
   });
 }
+
+/*
 function doAjax(options, url) {
   return fetch(url || ajaxUrl, { ...ajaxGlobals, ...options })
     .then(checkStatus)
     .then(parseJSON);
 }
+*/
 
-function ids2Options(ids, map) {
+function doAjax(data, config = {}, url = null) {
+  if (data.action) data[`${slug}_${data.action}`] = data.action;
+  const dataKey = "get" === config["method"] ? "params" : "data";
+  config[dataKey] = data;
+  if (url) config.url = url;
+  return axiosInstance(config);
+}
+
+function changeIds2Options(ids, map) {
   return ids.map((id) => ({
     value: id,
-    label: map[id] ? map[id].name : `NameNotFound (#${id})`
+    label: map[id] ? map[id] : `NameNotFound (#${id})`
   }));
 }
 
-function options2Ids(options) {
-  return options.map((obj) => obj.value);
-}
-
+//currently not being used. keeping it for any future use.
 function iterateConditions(rules, func) {
   for (const p in rules) {
     if (Array.isArray(rules[p])) {
@@ -125,29 +92,37 @@ function mapConditions(rules, func) {
   return newRules;
 }
 
-let keyId2Objects;
+let seed = null;
 export function prepareInitState(data) {
-  keyId2Objects = data.objects;
+  seed = data;
   return {
     init: false,
     dirty: false,
     fetching: false,
-    rules: mapConditions(data.rules, (obj) => ({
-      ...obj,
-      value: keyId2Objects[obj.keyId]
-        ? ids2Options(obj.value, keyId2Objects[obj.keyId])
-        : obj.value
-    }))
+    rules: mapConditions(data.rules, (obj) => {
+      const entityType = data.key2EntityType[obj.keyId];
+      if (entityType) {
+        return {
+          ...obj,
+          value: changeIds2Options(obj.value, data.type2Entities[entityType])
+        };
+      } else return obj;
+    })
   };
 }
 
 export function prepareSaveState(state) {
   return {
-    rules: mapConditions(state.rules, (obj) => ({
-      ...obj,
-      value: keyId2Objects[obj.keyId] ? options2Ids(obj.value) : obj.value
-    }))
+    rules: mapConditions(state.rules, (obj) => {
+      const entityType = seed.key2EntityType[obj.keyId];
+      if (entityType) {
+        return {
+          ...obj,
+          value: obj.value.map((option) => option.value)
+        };
+      } else return obj;
+    })
   };
 }
 
-export { ajaxUrl, spinnerUrl, doAjax, doAjaxDummy };
+export { ajaxUrl, doAjax, doAjaxDummy };
