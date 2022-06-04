@@ -253,6 +253,9 @@ button.icon {
   margin-top: 20px;
   text-align: right;
 }
+.objlist__add > .button {
+  margin-left: 10px;
+}
 .objlist {
   border: 1px solid #dfdfdf;
 }

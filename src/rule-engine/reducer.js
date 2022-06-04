@@ -4,6 +4,7 @@ function createRule(id) {
     name: "",
     active: true,
     priority: "",
+    uiIsExpanded: true,
     props: {},
     criteria: [[], []]
   };
@@ -15,6 +16,14 @@ function createCondition(id) {
 export function reducer(state, action) {
   let nextId;
   switch (action.type) {
+    case "EXPAND_ALL_RULES":
+      return {
+        ...state,
+        [action.ruleListId]: state[action.ruleListId].map((rule) => ({
+          ...rule,
+          uiIsExpanded: action.expand
+        }))
+      };
     case "ADD_RULE":
       nextId = state.nextId + 1;
       return {

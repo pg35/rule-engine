@@ -48,6 +48,17 @@ export default function RuleList(props) {
                           />
                         </div>
                       }
+                      isOpen={rule.uiIsExpanded}
+                      setOpen={(flag) =>
+                        dispatch({
+                          type: "UPDATE_RULE",
+                          ruleListId: id,
+                          ruleId: rule.id,
+                          field: {
+                            uiIsExpanded: flag
+                          }
+                        })
+                      }
                     >
                       <Rule rule={rule} ruleListId={id} {...otherProps} />
                     </Collapsible>
@@ -68,6 +79,30 @@ export default function RuleList(props) {
             }
           >
             Add Rule
+          </button>
+          <button
+            className="button"
+            onClick={(e) =>
+              dispatch({
+                type: "EXPAND_ALL_RULES",
+                ruleListId: id,
+                expand: false
+              })
+            }
+          >
+            Collapse All Rules
+          </button>
+          <button
+            className="button"
+            onClick={(e) =>
+              dispatch({
+                type: "EXPAND_ALL_RULES",
+                ruleListId: id,
+                expand: true
+              })
+            }
+          >
+            Expand All Rules
           </button>
         </div>
       </div>

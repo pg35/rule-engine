@@ -1,9 +1,10 @@
-import ProductSelect from "./ProductSelect";
+import MultiSelect from "./ui/MultiSelect";
 import {
   getKeyOptions,
   getOperatorIds,
   getOperatorOptions,
-  getKeyDefaultValue
+  getKeyDefaultValue,
+  getMultiSelectProps
 } from "../util";
 //import "../styles.css";
 
@@ -35,7 +36,7 @@ export default function Condition(props) {
     });
   };
 
-  const handleProductChange = (selectedOptions) => {
+  const handleMultiSelectChange = (selectedOptions) => {
     const e = {
       target: {
         name: "value",
@@ -46,12 +47,15 @@ export default function Condition(props) {
   };
 
   let inputField = null;
-  if (1 === Number(keyId)) {
+  const nKeyId = Number(keyId);
+
+  if ([1, 3].includes(nKeyId)) {
     inputField = (
-      <ProductSelect
+      <MultiSelect
         name="value"
         value={value}
-        onChange={handleProductChange}
+        onChange={handleMultiSelectChange}
+        {...getMultiSelectProps(nKeyId)}
       />
     );
   } else
@@ -61,9 +65,10 @@ export default function Condition(props) {
 
   return (
     <div className="condition">
-      <div className="icon sort-handle">
+      {/*<div className="icon sort-handle">
         <i className="dashicons dashicons-menu"></i>
       </div>
+      */}
       <div className="condition__key">
         <select name="keyId" value={keyId} onChange={handleChange}>
           {getKeyOptions(config, ruleListId, condListIndex)}

@@ -15,6 +15,7 @@ const dummyResponses = {
           name: "firt rule",
           active: false,
           priority: 100,
+          uiIsExpanded: true,
           fields: {
             hidePrice: true,
             priceText: "price is hidden",
@@ -38,7 +39,6 @@ const dummyResponses = {
           name: "2bs",
           active: true,
           priority: 101,
-          uiIsDragging: false,
           uiIsExpanded: true,
           fields: {},
           criteria: [[], []]
@@ -58,6 +58,11 @@ const dummyResponses = {
         3: "hello world"
       }
     }
+  },
+  woocommerce_json_search_products_and_variations: {
+    1: "p1",
+    2: "p2",
+    3: "special p"
   },
   save: "changed saved."
 };

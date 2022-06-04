@@ -71,3 +71,24 @@ export function getFieldValue(e) {
 export function cn(arr) {
   return arr.join(" ");
 }
+const buildOptions = (obj) =>
+  !obj ? [] : Object.keys(obj).map((id) => ({ value: id, label: obj[id] }));
+
+export function getMultiSelectProps(keyId) {
+  switch (keyId) {
+    case 1:
+      return {
+        action: "woocommerce_json_search_products_and_variations",
+        labels: { single: "product", plural: "products" },
+        buildOptions
+      };
+    case 3:
+      return {
+        action: "woocommerce_json_search_products_and_variations",
+        labels: { single: "customer", plural: "customers" },
+        buildOptions
+      };
+    default:
+      throw new Error("invalid keyid = " + keyId);
+  }
+}
