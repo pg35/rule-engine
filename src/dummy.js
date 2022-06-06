@@ -53,9 +53,9 @@ const dummyResponses = {
     },
     type2Entities: {
       product: {
-        1: "imran",
-        2: "ali",
-        3: "hello world"
+        1: "p1",
+        2: "p2",
+        3: "special p"
       }
     }
   },
@@ -63,6 +63,15 @@ const dummyResponses = {
     1: "p1",
     2: "p2",
     3: "special p"
+  },
+  woocommerce_json_search_customers: {
+    1: "first last (#1 fl@fl.com)",
+    2: "2nd customer",
+    3: "3rd customer"
+  },
+  woocommerce_json_search_categories: {
+    1: "apparal (15)",
+    2: "vola (33)"
   },
   save: "changed saved."
 };

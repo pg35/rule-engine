@@ -24,7 +24,7 @@ const rulesConfig = {
       },
       {
         ...conditionCriteria,
-        keyIds: [2]
+        keyIds: [256, 257]
       }
     ]
   },
@@ -45,5 +45,4 @@ const rulesConfig = {
 
 const ajaxUrl = window.ajaxurl;
 const slug = "mwqt";
-
 export { rulesConfig, ajaxUrl, slug };

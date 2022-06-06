@@ -1,3 +1,4 @@
+import { getOperatorIds, getKeyDefaultValue } from "./util";
 function createRule(id) {
   return {
     id,
@@ -9,8 +10,13 @@ function createRule(id) {
     criteria: [[], []]
   };
 }
-function createCondition(id) {
-  return { id, keyId: 2, opId: 3, value: "" };
+function createCondition(id, keyId) {
+  return {
+    id,
+    keyId,
+    opId: getOperatorIds(keyId)[0],
+    value: getKeyDefaultValue(keyId)
+  };
 }
 
 export function reducer(state, action) {
@@ -79,7 +85,7 @@ export function reducer(state, action) {
                 ...rule,
                 criteria: rule.criteria.map((list, idx) =>
                   action.condListIndex === idx
-                    ? list.concat(createCondition(nextId))
+                    ? list.concat(createCondition(nextId, action.keyId))
                     : list
                 )
               }

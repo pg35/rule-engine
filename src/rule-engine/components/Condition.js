@@ -4,7 +4,8 @@ import {
   getOperatorIds,
   getOperatorOptions,
   getKeyDefaultValue,
-  getMultiSelectProps
+  getMultiSelectProps,
+  isMultiSelectInput
 } from "../util";
 //import "../styles.css";
 
@@ -49,13 +50,14 @@ export default function Condition(props) {
   let inputField = null;
   const nKeyId = Number(keyId);
 
-  if ([1, 3].includes(nKeyId)) {
+  if (isMultiSelectInput(nKeyId)) {
     inputField = (
       <MultiSelect
         name="value"
         value={value}
         onChange={handleMultiSelectChange}
         {...getMultiSelectProps(nKeyId)}
+        keyId={nKeyId}
       />
     );
   } else
@@ -71,7 +73,7 @@ export default function Condition(props) {
       */}
       <div className="condition__key">
         <select name="keyId" value={keyId} onChange={handleChange}>
-          {getKeyOptions(config, ruleListId, condListIndex)}
+          {getKeyOptions(config, ruleListId, condListIndex, keyId)}
         </select>
       </div>
       <div className="condition__op">

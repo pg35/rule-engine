@@ -6,11 +6,7 @@ export default function Draggable(props) {
   return (
     <DndDraggable draggableId={id} index={index}>
       {(provided, snapshot) => (
-        <div
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-          isDragging={snapshot.isDragging}
-        >
+        <div {...provided.draggableProps} ref={provided.innerRef}>
           {children({
             dragHandleProps: provided.dragHandleProps,
             isDragging: snapshot.isDragging

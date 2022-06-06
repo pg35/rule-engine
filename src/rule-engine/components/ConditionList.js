@@ -25,7 +25,8 @@ export default function ConditionList(props) {
                 type: "ADD_CONDITION",
                 ruleListId,
                 ruleId,
-                condListIndex
+                condListIndex,
+                keyId: config.criteria[condListIndex].keyIds[0]
               })
             }
           >

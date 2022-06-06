@@ -348,3 +348,6 @@ button.icon {
 .product-select {
   width: 100%;
 }
+.product-select input:focus {
+  box-shadow: none !important;
+}
