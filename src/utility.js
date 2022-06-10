@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 import { slug, ajaxUrl } from "./config";
 import { dummyResponses } from "./dummy";
 
@@ -9,6 +10,35 @@ const axiosInstance = axios.create({
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
   }
 });
+axiosInstance.interceptors.request.use((config) => {
+  if ("post" === config.method && config.headers) {
+    const contentType = config.headers["Content-Type"];
+    if (contentType.startsWith("application/x-www-form-urlencoded;")) {
+      config.data = qs.stringify(config.data);
+      //config.data = new URLSearchParams(config.data).toString();
+    }
+  }
+  return config;
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  if ("post" === config.method && config.isJsonData) {
+    config.data.data = JSON.stringify(config.data.data);
+  }
+  const data = config.params || config.data;
+  if (config.isOwnAction && data.action) {
+    data["action"] = `${slug}_${data.action}`;
+  }
+  return config;
+});
+              
+axiosInstance.interceptors.request.use(log);
+axiosInstance.interceptors.response.use(log);
+function log(obj){
+  //4 req config, 4 res response
+  console.log("axios", obj);
+  return obj;
+}
 /*
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -39,7 +69,7 @@ function doAjaxDummy(options) {
   console.log("ajax", options);
   return new Promise(function (r, re) {
     setTimeout(() => {
-      r(dummyResponses[options.action]);
+      r({ data: dummyResponses[options.action] });
     }, 2000);
   });
 }
@@ -53,7 +83,7 @@ function doAjax(options, url) {
 */
 
 function doAjax(data, config = {}, url = null) {
-  if (data.action) data[`${slug}_${data.action}`] = data.action;
+  config.isOwnAction = 'undefined' !== typeof config.isOwnAction ? config.isOwnAction : true;
   const dataKey = "get" === config["method"] ? "params" : "data";
   config[dataKey] = data;
   if (url) config.url = url;

@@ -14,13 +14,18 @@ export default function MultiSelect(props) {
     if (inputValue.length < 3) {
       callback([]);
     } else {
-      doAjax({ action: props.action, term: inputValue.toLowerCase() }).then(
-        (response) => {
-          const options = props.buildOptions(response);
-          setDefaultOptions(options);
-          callback(options);
-        }
-      );
+      doAjax(
+        {
+          action: props.action,
+          security: props.security,
+          term: inputValue.toLowerCase()
+        },
+        { isOwnAction: false }
+      ).then((response) => {
+        const options = props.buildOptions(response.data);
+        setDefaultOptions(options);
+        callback(options);
+      });
     }
   };
   //cacheOptions

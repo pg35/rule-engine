@@ -3,7 +3,7 @@ import Fields from "./components/Fields";
 import RuleList from "./rule-engine/components/RuleList";
 import { reducer } from "./store";
 import {
-  // doAjax,
+  //doAjax,
   doAjaxDummy as doAjax,
   prepareInitState,
   prepareSaveState
@@ -20,10 +20,11 @@ export default function App(props) {
     doAjax({
       action: "seed"
     }).then((response) => {
+      console.log(response)
       dispatch({
         type: "INIT",
         flag: true,
-        state: prepareInitState(response)
+        state: prepareInitState(response.data)
       });
     });
   }, []);
@@ -33,10 +34,13 @@ export default function App(props) {
       type: "FETCHING",
       flag: true
     });
-    doAjax({
-      action: "save",
-      data: prepareSaveState(state)
-    }).then((response) => {
+    doAjax(
+      {
+        action: "save",
+        data: prepareSaveState(state)
+      },
+      { method: "post", isJsonData: true }
+    ).then((response) => {
       console.log("save response", response);
       dispatch({
         type: "FETCHING",

@@ -97,7 +97,7 @@ function buildOptions(obj) {
 
 function getGlobalVar(name, key) {
   const value = window.mwreParams && window.mwreParams[name];
-  return value && key && Array.isArray(value) ? value[key] : value;
+  return value && key && value[key] ? value[key] : value;
 }
 
 export function getMultiSelectProps(keyId) {
