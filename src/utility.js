@@ -31,10 +31,10 @@ axiosInstance.interceptors.request.use((config) => {
   }
   return config;
 });
-              
+
 axiosInstance.interceptors.request.use(log);
 axiosInstance.interceptors.response.use(log);
-function log(obj){
+function log(obj) {
   //4 req config, 4 res response
   console.log("axios", obj);
   return obj;
@@ -83,8 +83,9 @@ function doAjax(options, url) {
 */
 
 function doAjax(data, config = {}, url = null) {
-  config.isOwnAction = 'undefined' !== typeof config.isOwnAction ? config.isOwnAction : true;
-  const dataKey = "get" === config["method"] ? "params" : "data";
+  config.isOwnAction =
+    "undefined" !== typeof config.isOwnAction ? config.isOwnAction : true;
+  const dataKey = "post" === config["method"] ? "data" : "params";
   config[dataKey] = data;
   if (url) config.url = url;
   return axiosInstance(config);
@@ -93,7 +94,7 @@ function doAjax(data, config = {}, url = null) {
 function changeIds2Options(ids, map) {
   return ids.map((id) => ({
     value: id,
-    label: map[id] ? map[id] : `NameNotFound (#${id})`
+    label: map && map[id] ? map[id] : `NameNotFound (#${id})`
   }));
 }
 
