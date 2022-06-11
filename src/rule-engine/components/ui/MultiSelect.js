@@ -1,6 +1,24 @@
 import { useState } from "react";
 import AsyncSelect from "react-select/async";
+import { components } from "react-select";
+import MultiSelectOptionLabel from "./MultiSelectOptionLabel";
 import { doAjaxDummy as doAjax } from "../../../utility";
+
+function MultiValueLabel(props) {
+  return (
+    <components.MultiValueLabel {...props}>
+      <MultiSelectOptionLabel str={props.children} />
+    </components.MultiValueLabel>
+  );
+}
+
+const Option = (props) => {
+  return (
+    <components.Option {...props}>
+      <MultiSelectOptionLabel str={props.children} />
+    </components.Option>
+  );
+};
 
 export default function MultiSelect(props) {
   const [defaultOptions, setDefaultOptions] = useState([]);
@@ -16,8 +34,7 @@ export default function MultiSelect(props) {
     } else {
       doAjax(
         {
-          action: props.action,
-          security: props.security,
+          ...props.ajax,
           term: inputValue.toLowerCase()
         },
         { isOwnAction: false }
@@ -41,6 +58,7 @@ export default function MultiSelect(props) {
       noOptionsMessage={() => `No ${props.labels.single} found`}
       placeholder={`Type at least 3 charaters to search ${props.labels.plural}...`}
       className="product-select"
+      components={{ MultiValueLabel, Option }}
     />
   );
 }

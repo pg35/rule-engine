@@ -92,7 +92,10 @@ export function cn(arr) {
 function buildOptions(obj) {
   return !obj
     ? []
-    : Object.keys(obj).map((id) => ({ value: id, label: obj[id] }));
+    : Object.keys(obj).map((id) => ({
+        value: id,
+        label: obj[id]
+      }));
 }
 
 function getGlobalVar(name, key) {
@@ -104,23 +107,30 @@ export function getMultiSelectProps(keyId) {
   switch (keyId) {
     case 1:
       return {
-        action: "woocommerce_json_search_products_and_variations",
-        security: getGlobalVar("nonce", "search-products"),
+        ajax: {
+          action: "woocommerce_json_search_products_and_variations",
+          security: getGlobalVar("nonce", "search-products")
+        },
         labels: { single: "product", plural: "products" },
         buildOptions
       };
 
     case 3:
       return {
-        action: "woocommerce_json_search_categories",
-        security: getGlobalVar("nonce", "search_categories"),
+        ajax: {
+          action: "woocommerce_json_search_categories",
+          security: getGlobalVar("nonce", "search-categories"),
+          mwre_ret_id2name_map: true
+        },
         labels: { single: "category", plural: "categories" },
         buildOptions
       };
     case 256:
       return {
-        action: "woocommerce_json_search_customers",
-        security: getGlobalVar("nonce", "search-customers"),
+        ajax: {
+          action: "woocommerce_json_search_customers",
+          security: getGlobalVar("nonce", "search-customers")
+        },
         labels: { single: "customer", plural: "customers" },
         buildOptions
       };

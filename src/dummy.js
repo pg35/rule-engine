@@ -53,16 +53,16 @@ const dummyResponses = {
     },
     type2Entities: {
       product: {
-        1: "p1",
+        1: "&ndash;p1&ndash;&amp;&lt;&gt;",
         2: "p2",
         3: "special p"
       }
     }
   },
   woocommerce_json_search_products_and_variations: {
-    1: "p1",
-    2: "p2",
-    3: "special p"
+    1: "&ndash;p1&ndash;&amp;&lt;&gt;",
+    2: "&ndash;&gt;<script>alert(44);</script>",
+    3: "111 &ndash; special p"
   },
   woocommerce_json_search_customers: {
     1: "first last (#1 fl@fl.com)",
