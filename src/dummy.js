@@ -31,9 +31,14 @@ const dummyResponses = {
               { id: 100, keyId: 1, opId: 1, value: [1, 3, 4] },
               { id: 101, keyId: 2, opId: 3, value: 55.32 }
             ],
-            []
+            [
+              { id: 102, keyId: 259, opId: 128 | 1, value: ["admin", "sub"] },
+              { id: 103, keyId: 258, opId: 128 | 4, value: "" },
+              { id: 104, keyId: 256, opId: 128 | 1, value: [1, 2, 3, 5] }
+            ]
           ]
-        },
+        }
+        /*
         {
           id: 2,
           name: "2bs",
@@ -43,19 +48,37 @@ const dummyResponses = {
           fields: {},
           criteria: [[], []]
         }
+        */
       ],
       cart: [],
       nextId: 500
       //{ id: 1, keyId: 3, opId: 1, value: ['198.0.0.1','172.0.0.16'] },
     },
     key2EntityType: {
-      1: "product"
+      1: "product",
+      3: "category",
+      256: "customer",
+      259: "role"
     },
     type2Entities: {
       product: {
         1: "&ndash;p1&ndash;&amp;&lt;&gt;",
         2: "p2",
         3: "special p"
+      },
+      category: {
+        1: "cc1",
+        2: "cc2",
+        3: "cc3"
+      },
+      customer: {
+        1: "c1",
+        2: "c2",
+        3: "c3"
+      },
+      role: {
+        admin: "Admin",
+        sub: "Subscriber"
       }
     }
   },

@@ -24,7 +24,7 @@ const rulesConfig = {
       },
       {
         ...conditionCriteria,
-        keyIds: [256, 257]
+        keyIds: [256, 257, 258, 259]
       }
     ]
   },

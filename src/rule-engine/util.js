@@ -134,6 +134,13 @@ export function getMultiSelectProps(keyId) {
         labels: { single: "customer", plural: "customers" },
         buildOptions
       };
+    case 259:
+      return {
+        static: true,
+        isMulti: true,
+        options: buildOptions(getGlobalVar("allUserRoles", null)),
+        placeholder: "Please select one or more user roles"
+      };
     default:
       throw new Error("invalid keyid = " + keyId);
   }

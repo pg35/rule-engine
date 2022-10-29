@@ -5,7 +5,7 @@ import {
   getOperatorOptions,
   getKeyDefaultValue,
   getMultiSelectProps,
-  isMultiSelectInput
+  getKeyInputControl
 } from "../util";
 //import "../styles.css";
 
@@ -50,26 +50,40 @@ export default function Condition(props) {
   let inputField = null;
   const nKeyId = Number(keyId);
 
-  if (isMultiSelectInput(nKeyId)) {
-    inputField = (
-      <MultiSelect
-        name="value"
-        value={value}
-        onChange={handleMultiSelectChange}
-        {...getMultiSelectProps(nKeyId)}
-        keyId={nKeyId}
-      />
-    );
-  } else
-    inputField = (
-      <input type="text" name="value" value={value} onChange={handleChange} />
-    );
+  switch (getKeyInputControl(nKeyId)) {
+    case "multiselect":
+      inputField = (
+        <MultiSelect
+          name="value"
+          value={value}
+          onChange={handleMultiSelectChange}
+          {...getMultiSelectProps(nKeyId)}
+          keyId={nKeyId}
+        />
+      );
+      break;
+    case "text":
+      inputField = (
+        <input type="text" name="value" value={value} onChange={handleChange} />
+      );
+      break;
+    case false:
+      break;
+    default:
+      throw new Error(
+        "unknow input control" +
+          getKeyInputControl(nKeyId) +
+          " for keyid " +
+          nKeyId
+      );
+  }
 
   return (
-    <div className="condition">
-      {/*<div className="icon sort-handle">
-        <i className="dashicons dashicons-menu"></i>
-      </div>
+    <div className={`condition ${inputField ? "" : "condition--noinput"}`}>
+      {/*
+        <div className="icon sort-handle">
+          <i className="dashicons dashicons-menu"></i>
+        </div>
       */}
       <div className="condition__key">
         <select name="keyId" value={keyId} onChange={handleChange}>
@@ -81,7 +95,7 @@ export default function Condition(props) {
           {getOperatorOptions(keyId)}
         </select>
       </div>
-      <div className="condition__val">{inputField}</div>
+      {inputField && <div className="condition__val">{inputField}</div>}
       <div className="condition__remove">
         <button
           title="Delete"

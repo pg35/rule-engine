@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AsyncSelect from "react-select/async";
-import { components } from "react-select";
+import Select, { components } from "react-select";
 import MultiSelectOptionLabel from "./MultiSelectOptionLabel";
 import { doAjaxDummy as doAjax } from "../../../utility";
 
@@ -45,6 +45,19 @@ export default function MultiSelect(props) {
       });
     }
   };
+  if (props.static) {
+    return (
+      <Select
+        value={props.value}
+        onChange={props.onChange}
+        options={props.options}
+        isMulti={props.isMulti}
+        isClearable
+        placeholder={props.placeholder}
+        className="static-select"
+      />
+    );
+  }
   //cacheOptions
   return (
     <AsyncSelect

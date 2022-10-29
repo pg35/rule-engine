@@ -329,6 +329,9 @@ button.icon {
   .condition__remove {
     width: 5%;
   }
+  .condition--noinput .condition__op {
+    width: 69%;
+  }
 }
 @media (min-width: 1280px) {
   .condition__key {
@@ -343,6 +346,9 @@ button.icon {
   }
   .condition__remove {
     width: 3%;
+  }
+  .condition--noinput .condition__op {
+    width: 73%;
   }
 }
 .product-select {
