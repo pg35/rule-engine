@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Rule from "./Rule";
 import RuleHeader from "./RuleHeader";
 import DragDropContext from "./ui/DragDropContext";
@@ -8,7 +9,7 @@ import Collapsible from "./ui/Collapsible";
 export default function RuleList(props) {
   const { id, rules, ...otherProps } = props;
   const { config, dispatch } = props;
-
+  const [isDragCaptured, setDragCaptured] = useState(false);
   return (
     <div className={`objlist rulelist rulelist-${config.label}`}>
       <div className="rulelist__header">
@@ -19,7 +20,15 @@ export default function RuleList(props) {
           <div className="objlist__empty">No rules configured.</div>
         ) : (
           <DragDropContext
+            onBeforeCapture={() => {
+              setDragCaptured(true);
+            }}
             onDragEnd={(sourceIndex, destIndex) => {
+              dispatch({
+                type: "EXPAND_ALL_RULES",
+                ruleListId: id,
+                expand: false
+              });
               if ("undefined" !== typeof destIndex) {
                 dispatch({
                   type: "SWAP_RULE",
@@ -28,6 +37,7 @@ export default function RuleList(props) {
                   destIndex
                 });
               }
+              setTimeout(() => setDragCaptured(false), 10);
             }}
           >
             <Droppable id={id} type={id}>
@@ -60,7 +70,9 @@ export default function RuleList(props) {
                         })
                       }
                     >
-                      <Rule rule={rule} ruleListId={id} {...otherProps} />
+                      {!isDragCaptured && (
+                        <Rule rule={rule} ruleListId={id} {...otherProps} />
+                      )}
                     </Collapsible>
                   )}
                 </Draggable>

@@ -25,7 +25,9 @@ export default function Collapsible(props) {
         {headerContent}
       </div>
       <div {...getCollapseProps()}>
-        <div className="collapsible__content">{props.children}</div>
+        {props.children && (
+          <div className="collapsible__content">{props.children}</div>
+        )}
       </div>
     </div>
   );

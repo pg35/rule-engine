@@ -20,7 +20,11 @@ export default function DragDropContext(props) {
   };
 
   return (
-    <DnDDragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DnDDragDropContext
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onBeforeCapture={props.onBeforeCapture}
+    >
       {children}
     </DnDDragDropContext>
   );
