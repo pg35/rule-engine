@@ -308,7 +308,7 @@ button.icon {
 .condition > div {
   margin: 0 0 5px 0;
 }
-@media (min-width: 650px) {
+@media (min-width: 920px) {
   .condition {
     display: flex;
     flex-flow: row nowrap;

@@ -1,0 +1,27 @@
+.mwre-select__control {
+  min-height: 30px !important;
+  border-radius: 3px !important;
+  border-color: #8c8f94 !important;
+}
+.mwre-select__value-container {
+  padding: 0 8px !important;
+}
+.mwre-select__input-container {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.mwre-select__input {
+  min-height: 30px !important;
+}
+.mwre-select__indicator {
+  padding: 4px !important;
+}
+
+@media screen and (max-width: 782px) {
+  .mwre-select__control {
+    min-height: 40px !important;
+  }
+  .mwre-select__input {
+    min-height: 40px !important;
+  }
+}

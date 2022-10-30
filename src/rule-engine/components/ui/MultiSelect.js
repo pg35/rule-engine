@@ -45,6 +45,7 @@ export default function MultiSelect(props) {
       });
     }
   };
+
   if (props.static) {
     return (
       <Select
@@ -54,7 +55,8 @@ export default function MultiSelect(props) {
         isMulti={props.isMulti}
         isClearable
         placeholder={props.placeholder}
-        className="static-select"
+        className="mwre-static-select"
+        classNamePrefix="mwre-select"
       />
     );
   }
@@ -70,8 +72,9 @@ export default function MultiSelect(props) {
       loadOptions={loadOptions}
       noOptionsMessage={() => `No ${props.labels.single} found`}
       placeholder={`Type at least 3 charaters to search ${props.labels.plural}...`}
-      className="product-select"
       components={{ MultiValueLabel, Option }}
+      className="mwre-async-select"
+      classNamePrefix="mwre-select"
     />
   );
 }
