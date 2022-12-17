@@ -31,12 +31,13 @@ export default function Rule(props) {
         <div className="col-md-6">
           <Field {...getFieldProps("name", name, "text")} />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-6">
           <Field {...getFieldProps("active", active, "checkbox")} />
         </div>
-        <div className="col-md-3">
+        {/*<div className="col-md-3">
           <Field {...getFieldProps("priority", priority, "number", "inline")} />
         </div>
+  */}
       </div>
       <FieldsComponent fields={fields} ruleId={id} {...otherProps} />
       {criteria.map((conditions, index) => (

@@ -53,6 +53,9 @@ export default function Fields(props) {
             )}
           />
         ) : null}
+      </div>
+
+      <div className="col-md-6">
         <Field
           {...getFieldProps(
             "add2CartText",
@@ -61,9 +64,8 @@ export default function Fields(props) {
             "Add To Cart button text"
           )}
         />
-      </div>
 
-      <div className="col-md-6">
+        {/*        
         <Field
           {...getFieldProps(
             "revokeCheckout",
@@ -72,6 +74,7 @@ export default function Fields(props) {
             "Revoke checkout"
           )}
         />
+*/}
         <Field
           {...getFieldProps(
             "enableInquiry",
@@ -80,6 +83,7 @@ export default function Fields(props) {
             "Allow inquiry"
           )}
         />
+        {/*        
         {obj.enableInquiry ? (
           <>
             <Field
@@ -98,8 +102,10 @@ export default function Fields(props) {
                 "Disable acknowledgement email"
               )}
             />
+              *            
           </>
         ) : null}
+              */}
       </div>
     </div>
   );
