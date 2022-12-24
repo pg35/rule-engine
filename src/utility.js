@@ -65,7 +65,7 @@ export let ajaxGlobals = {
 };
 */
 
-function doAjaxDummy(options) {
+function doAjaxDummy(options, config = {}, url = null) {
   console.log("ajax", options);
   return new Promise(function (r, re) {
     setTimeout(() => {

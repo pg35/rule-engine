@@ -20,6 +20,13 @@ export const keys = {
     defaultValue: [],
     input: "multiselect"
   },
+  4: {
+    name: "Tag",
+    group: "Product",
+    operatorIds: [1, 128 | 1],
+    defaultValue: [],
+    input: "multiselect"
+  },
   256: {
     name: "Id",
     group: "Customer",

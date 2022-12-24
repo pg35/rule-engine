@@ -29,7 +29,7 @@ export default function MultiSelect(props) {
   }
 
   const loadOptions = (inputValue, callback) => {
-    if (inputValue.length < 3) {
+    if (inputValue.length < 1) {
       callback([]);
     } else {
       doAjax(

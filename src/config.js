@@ -20,7 +20,7 @@ const rulesConfig = {
     criteria: [
       {
         ...productCriteria,
-        keyIds: [1, 2, 3]
+        keyIds: [1, 2, 3, 4]
       },
       {
         ...conditionCriteria,

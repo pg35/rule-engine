@@ -94,7 +94,7 @@ function buildOptions(obj) {
     ? []
     : Object.keys(obj).map((id) => ({
         value: id,
-        label: obj[id]
+        label: typeof obj[id] === "object" ? obj[id].formatted_name : obj[id]
       }));
 }
 
@@ -124,6 +124,18 @@ export function getMultiSelectProps(keyId) {
         },
         labels: { single: "category", plural: "categories" },
         buildOptions
+      };
+    case 4:
+      return {
+        ajax: {
+          action: "mwqt_json_search_tags",
+          security: getGlobalVar("nonce", "search-tags")
+        },
+        labels: {
+          single: "tag",
+          plural: "tags"
+        },
+        buildOptions: buildOptions
       };
     case 256:
       return {

@@ -96,6 +96,11 @@ const dummyResponses = {
     1: "apparal (15)",
     2: "vola (33)"
   },
+  mwqt_json_search_tags: {
+    1: "featured",
+    2: "seasonsl",
+    3: "casual"
+  },
   save: "changed saved."
 };
 
